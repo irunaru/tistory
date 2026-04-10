@@ -227,33 +227,94 @@ class CharaLabSystemFinal:
                 )
                 content_html = img_tag + content_html
 
-            # ── 3. 본문 입력 (iframe 방식)
+            # ── 3. HTML 모드 전환
+            html_mode = False
+            for mode_sel in [
+                'button:has-text("기본모드")',
+                'button.editor-mode-btn',
+                'button[data-type="editor-mode"]',
+            ]:
+                mode_btn = page.locator(mode_sel).first
+                if await mode_btn.count() > 0:
+                    await mode_btn.click()
+                    await asyncio.sleep(0.8)
+                    for html_sel in [
+                        'button:has-text("HTML")',
+                        'a:has-text("HTML")',
+                        'li:has-text("HTML")',
+                    ]:
+                        html_opt = page.locator(html_sel).first
+                        if await html_opt.count() > 0:
+                            await html_opt.click()
+                            await asyncio.sleep(1)
+                            html_mode = True
+                            logger.info("✓ HTML 모드 전환 완료")
+                            break
+                if html_mode:
+                    break
+
+            if not html_mode:
+                logger.warning("⚠️ HTML 모드 전환 실패 → 기본모드로 진행")
+
+            await asyncio.sleep(1)
+
+            # ── 4. 본문 입력
             editor_found = False
-            frame = page.frame(name="editor-tistory_ifr")
-            if frame:
-                editable = frame.locator('[contenteditable="true"]').first
-                if await editable.count() > 0:
-                    await editable.click()
-                    await editable.evaluate(
-                        '(node, html) => { node.innerHTML = html; node.dispatchEvent(new Event("input", {bubbles: true})); }',
-                        content_html
-                    )
+
+            if html_mode:
+                # CodeMirror 방식 (Tistory HTML 에디터)
+                injected = await page.evaluate(f"""
+                    () => {{
+                        const cm = document.querySelector('.CodeMirror');
+                        if (cm && cm.CodeMirror) {{
+                            cm.CodeMirror.setValue({json.dumps(content_html)});
+                            return true;
+                        }}
+                        return false;
+                    }}
+                """)
+                if injected:
                     editor_found = True
-                    logger.info("✓ 본문 입력 완료 (editor-tistory_ifr)")
+                    logger.info("✓ 본문 입력 완료 (HTML 모드 CodeMirror)")
+
+                if not editor_found:
+                    for sel in ['textarea.CodeMirror-code', 'textarea[name="content"]', 'textarea']:
+                        el = page.locator(sel).first
+                        if await el.count() > 0:
+                            await el.click()
+                            await page.keyboard.press('Control+a')
+                            await page.keyboard.type(content_html, delay=0)
+                            editor_found = True
+                            logger.info(f"✓ 본문 입력 완료 (HTML textarea, {sel})")
+                            break
 
             if not editor_found:
-                for f in page.frames:
-                    if 'editor' in f.name.lower():
-                        editable = f.locator('[contenteditable="true"]').first
-                        if await editable.count() > 0:
-                            await editable.click()
-                            await editable.evaluate(
-                                '(node, html) => { node.innerHTML = html; node.dispatchEvent(new Event("input", {bubbles: true})); }',
-                                content_html
-                            )
-                            editor_found = True
-                            logger.info(f"✓ 본문 입력 완료 ({f.name})")
-                            break
+                # 기본모드 fallback: iframe 방식
+                frame = page.frame(name="editor-tistory_ifr")
+                if frame:
+                    editable = frame.locator('[contenteditable="true"]').first
+                    if await editable.count() > 0:
+                        await editable.click()
+                        await editable.evaluate(
+                            '(node, html) => { node.innerHTML = html; node.dispatchEvent(new Event("input", {bubbles: true})); }',
+                            content_html
+                        )
+                        editor_found = True
+                        logger.info("✓ 본문 입력 완료 (iframe fallback)")
+
+                if not editor_found:
+                    for f in page.frames:
+                        if 'editor' in f.name.lower():
+                            editable = f.locator('[contenteditable="true"]').first
+                            if await editable.count() > 0:
+                                await editable.click()
+                                await editable.evaluate(
+                                    '(node, html) => { node.innerHTML = html; node.dispatchEvent(new Event("input", {bubbles: true})); }',
+                                    content_html
+                                )
+                                editor_found = True
+                                logger.info(f"✓ 본문 입력 완료 ({f.name})")
+                                break
 
             if not editor_found:
                 logger.error("❌ 에디터를 찾을 수 없음")
