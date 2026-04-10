@@ -20,7 +20,7 @@ class CharaLabCrawlerV2:
     def __init__(self):
         self.supabase = create_client(CharaLabConfig.SUPABASE_URL, CharaLabConfig.SUPABASE_KEY)
         genai.configure(api_key=CharaLabConfig.GEMINI_API_KEY)
-        self.model = genai.GenerativeModel('gemini-1.5-flash')
+        self.model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
     async def get_latest_feeds(self) -> List[Dict]:
         """RSS 피드에서 기사 정보 추출 (Playwright 불필요)"""
