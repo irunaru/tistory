@@ -8,33 +8,25 @@ from dotenv import load_dotenv
 from supabase import create_client
 import google.generativeai as genai
 from playwright.async_api import async_playwright
+from charalab_config import CharaLabConfig
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# 환경 변수 로드
-load_dotenv()
-
-class Config:
-    SUPABASE_URL = os.getenv("SUPABASE_URL")
-    SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-    CHARALAB_FEED_URL = "https://charalab.com/feed/"
-
 class CharaLabCrawler:
     def __init__(self):
-        self.supabase = create_client(Config.SUPABASE_URL, Config.SUPABASE_KEY)
-        genai.configure(api_key=Config.GEMINI_API_KEY)
+        self.supabase = create_client(CharaLabConfig.SUPABASE_URL, CharaLabConfig.SUPABASE_KEY)
+        genai.configure(api_key=CharaLabConfig.GEMINI_API_KEY)
         self.model = genai.GenerativeModel('gemini-1.5-flash')
 
     async def get_latest_feeds(self) -> List[Dict]:
         """RSS 피드에서 최신 기사 목록 가져오기"""
-        logger.info(f"RSS 피드 읽기 시작: {Config.CHARALAB_FEED_URL}")
-        feed = feedparser.parse(Config.CHARALAB_FEED_URL)
+        logger.info(f"RSS 피드 읽기 시작: {CharaLabConfig.FEED_URL}")
+        feed = feedparser.parse(CharaLabConfig.FEED_URL)
         articles = []
         
-        for entry in feed.entries[:10]:  # 최신 10개만 확인
+        for entry in feed.entries[:CharaLabConfig.MAX_ARTICLES]:
             articles.append({
                 'title': entry.title,
                 'link': entry.link,
@@ -47,7 +39,7 @@ class CharaLabCrawler:
         """Playwright를 사용하여 기사 본문 및 이미지 추출"""
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=True)
-            context = await browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36")
+            context = await browser.new_context(user_agent=CharaLabConfig.USER_AGENT)
             page = await context.new_page()
             
             try:
@@ -102,12 +94,12 @@ class CharaLabCrawler:
             text = response.text
             
             # 간단한 파싱 (제목: / 본문: 구분)
-            title = text.split("제목:")[1].split("본문:")[0].strip()
-            content = text.split("본문:")[1].strip()
+            title_part = text.split("제목:")[1].split("본문:")[0].strip()
+            content_part = text.split("본문:")[1].strip()
             
             return {
-                'title': title,
-                'content': content
+                'title': title_part,
+                'content': content_part
             }
         except Exception as e:
             logger.error(f"Gemini 처리 실패: {e}")
@@ -120,8 +112,8 @@ class CharaLabCrawler:
                 'title': post_data['title'],
                 'content_html': post_data['content'],
                 'status': 'ready',
-                'category': 'Character News',
-                'tags': tags + ['CharaLab', '캐릭터뉴스'],
+                'category': CharaLabConfig.CATEGORY_NAME,
+                'tags': tags + CharaLabConfig.DEFAULT_TAGS,
                 'metadata': {'original_url': original_url}
             }).execute()
             logger.info(f"✅ Supabase 저장 완료: {post_data['title']}")
