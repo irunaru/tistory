@@ -377,6 +377,7 @@ class TistoryWriter:
         category: str = "",
         tags: list = None,
         scheduled_time: Optional[datetime] = None,
+        visibility: str = "public",
     ) -> bool:
         """Tistory에 글 작성 및 게시 (최종 분석 반영)"""
         try:
@@ -459,6 +460,20 @@ class TistoryWriter:
             if await page.locator('#publish-layer-btn').count() > 0:
                 await page.click('#publish-layer-btn')
                 await HumanBehavior.random_delay(1500, 2500)
+                
+                # 공개 범위 설정 로직 추가
+                try:
+                    if visibility == 'private':
+                        await page.click('label:has-text("비공개")')
+                        logger.info("공개 범위 설정: 비공개")
+                    elif visibility == 'protected':
+                        await page.click('label:has-text("보호")')
+                        logger.info("공개 범위 설정: 보호")
+                    elif visibility == 'public':
+                        await page.click('label:has-text("공개")')
+                        logger.info("공개 범위 설정: 공개")
+                except Exception as e:
+                    logger.warning(f"공개 범위 설정 클릭 실패(무시하고 진행): {e}")
                 
                 # 최종 발행 버튼 탐색 (여러 후보)
                 final_publish_selectors = [
