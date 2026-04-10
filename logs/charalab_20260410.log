@@ -1,0 +1,617 @@
+2026-04-10 20:16:35,394 - INFO - ============================================================
+2026-04-10 20:16:35,394 - INFO - CharaLab 완전 자동화 시스템 (V7 Final)
+2026-04-10 20:16:35,394 - INFO - RSS → 번역 → Supabase → Tistory 비공개 저장
+2026-04-10 20:16:35,394 - INFO - ============================================================
+2026-04-10 20:16:35,405 - INFO - RSS 피드 분석 시작: https://charalab.com/feed/
+2026-04-10 20:16:37,328 - INFO - 뉴스 20개 발견
+2026-04-10 20:16:37,328 - INFO - 필터링 후 10개 기사 수집
+2026-04-10 20:16:38,080 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135676%2F "HTTP/2 404 Not Found"
+2026-04-10 20:16:38,081 - WARNING - 내용 없음 스킵: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐イレブン」コラボ商品
+2026-04-10 20:16:38,266 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135670%2F "HTTP/2 404 Not Found"
+2026-04-10 20:16:38,267 - WARNING - 내용 없음 스킵: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコーンやドリンク風のアク
+2026-04-10 20:16:38,366 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135658%2F "HTTP/2 404 Not Found"
+2026-04-10 20:16:38,368 - WARNING - 내용 없음 스킵: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が登場！
+2026-04-10 20:16:38,473 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135647%2F "HTTP/2 404 Not Found"
+2026-04-10 20:16:38,474 - WARNING - 내용 없음 스킵: 「パペットスンスン」リフレクターキーリングがカプセルトイに登場！
+2026-04-10 20:16:38,790 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135638%2F "HTTP/2 404 Not Found"
+2026-04-10 20:16:38,791 - WARNING - 내용 없음 스킵: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」
+2026-04-10 20:16:38,892 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135627%2F "HTTP/2 404 Not Found"
+2026-04-10 20:16:38,893 - WARNING - 내용 없음 스킵: 「PINGU™」トートバッグや巾着など縫製バラエティーコレクションがカプセルトイ
+2026-04-10 20:16:38,992 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135614%2F "HTTP/2 404 Not Found"
+2026-04-10 20:16:38,993 - WARNING - 내용 없음 스킵: 「くまのプーさん」デザインの「ビオレu」ハンドソープディスペンサー＆ボディウォッ
+2026-04-10 20:16:39,089 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135603%2F "HTTP/2 404 Not Found"
+2026-04-10 20:16:39,090 - WARNING - 내용 없음 스킵: 「エスターバニー」ポーチアソートがカプセルトイに登場！
+2026-04-10 20:16:39,189 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135595%2F "HTTP/2 404 Not Found"
+2026-04-10 20:16:39,190 - WARNING - 내용 없음 스킵: 「サンリオキャラクター大賞」投票券を全国のアベイルで配布！オリジナルグッズも発売
+2026-04-10 20:16:39,314 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135585%2F "HTTP/2 404 Not Found"
+2026-04-10 20:16:39,317 - WARNING - 내용 없음 스킵: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショ
+2026-04-10 20:16:39,317 - INFO - 
+============================================================
+2026-04-10 20:16:39,317 - INFO - 처리 결과: ✅ 0개 저장 / ❌ 0개 실패 / ⏭️ 0개 스킵
+2026-04-10 20:16:39,319 - INFO - ============================================================
+2026-04-10 20:16:39,320 - INFO - 당신이 할 일:
+2026-04-10 20:16:39,320 - INFO -   1. Supabase charalab_articles 테이블 → tistory_url 컬럼의 링크 클릭
+2026-04-10 20:16:39,320 - INFO -   2. Tistory 비공개 게시물에서 렌더링 확인
+2026-04-10 20:16:39,320 - INFO -   3. 문제 없으면 Tistory에서 '공개'로 변경
+2026-04-10 20:16:39,320 - INFO - ============================================================
+2026-04-10 20:19:34,387 - INFO - ============================================================
+2026-04-10 20:19:34,387 - INFO - CharaLab 완전 자동화 시스템 (V7 Final)
+2026-04-10 20:19:34,387 - INFO - RSS → 번역 → Supabase → Tistory 비공개 저장
+2026-04-10 20:19:34,387 - INFO - ============================================================
+2026-04-10 20:19:34,400 - INFO - RSS 피드 분석 시작: https://charalab.com/feed/
+2026-04-10 20:19:35,706 - INFO - 뉴스 20개 발견
+2026-04-10 20:19:35,706 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135676/
+2026-04-10 20:19:36,401 - INFO - ✅ 본문 크롤링 성공 (p태그, 940자): https://charalab.com/135676/
+2026-04-10 20:19:36,404 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135670/
+2026-04-10 20:19:37,249 - INFO - ✅ 본문 크롤링 성공 (p태그, 961자): https://charalab.com/135670/
+2026-04-10 20:19:37,251 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135658/
+2026-04-10 20:19:37,931 - INFO - ✅ 본문 크롤링 성공 (p태그, 1706자): https://charalab.com/135658/
+2026-04-10 20:19:37,934 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135647/
+2026-04-10 20:19:38,733 - INFO - ✅ 본문 크롤링 성공 (p태그, 1152자): https://charalab.com/135647/
+2026-04-10 20:19:38,737 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135638/
+2026-04-10 20:19:39,387 - INFO - ✅ 본문 크롤링 성공 (p태그, 1072자): https://charalab.com/135638/
+2026-04-10 20:19:39,390 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135627/
+2026-04-10 20:19:40,291 - INFO - ✅ 본문 크롤링 성공 (p태그, 1210자): https://charalab.com/135627/
+2026-04-10 20:19:40,294 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135614/
+2026-04-10 20:19:41,006 - INFO - ✅ 본문 크롤링 성공 (p태그, 1272자): https://charalab.com/135614/
+2026-04-10 20:19:41,010 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135603/
+2026-04-10 20:19:41,762 - INFO - ✅ 본문 크롤링 성공 (p태그, 1188자): https://charalab.com/135603/
+2026-04-10 20:19:41,765 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135595/
+2026-04-10 20:19:42,460 - INFO - ✅ 본문 크롤링 성공 (p태그, 1065자): https://charalab.com/135595/
+2026-04-10 20:19:42,462 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135585/
+2026-04-10 20:19:43,146 - INFO - ✅ 본문 크롤링 성공 (p태그, 1191자): https://charalab.com/135585/
+2026-04-10 20:19:43,148 - INFO - 필터링 후 10개 기사 수집
+2026-04-10 20:19:43,934 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135676%2F "HTTP/2 200 OK"
+2026-04-10 20:19:43,937 - INFO - 
+🚀 처리 중: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐イレブン」コラボ商品を首都圏エリア限定で
+2026-04-10 20:19:43,939 - INFO - [1단계] 번역 중: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐イレブン」コラボ商品...
+2026-04-10 20:19:52,978 - ERROR - ❌ 번역 실패: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+2026-04-10 20:19:52,979 - WARNING - 번역 실패: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐イレブン」コラボ商品
+2026-04-10 20:19:53,297 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135670%2F "HTTP/2 200 OK"
+2026-04-10 20:19:53,300 - INFO - 
+🚀 처리 중: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコーンやドリンク風のアクスタが全国の主要劇場
+2026-04-10 20:19:53,300 - INFO - [1단계] 번역 중: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコーンやドリンク風のアク...
+2026-04-10 20:19:56,105 - ERROR - ❌ 번역 실패: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+2026-04-10 20:19:56,105 - WARNING - 번역 실패: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコーンやドリンク風のアク
+2026-04-10 20:19:56,210 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135658%2F "HTTP/2 200 OK"
+2026-04-10 20:19:56,213 - INFO - 
+🚀 처리 중: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が登場！
+2026-04-10 20:19:56,213 - INFO - [1단계] 번역 중: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が登場！...
+2026-04-10 20:19:59,223 - ERROR - ❌ 번역 실패: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+2026-04-10 20:19:59,224 - WARNING - 번역 실패: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が登場！
+2026-04-10 20:19:59,336 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135647%2F "HTTP/2 200 OK"
+2026-04-10 20:19:59,340 - INFO - 
+🚀 처리 중: 「パペットスンスン」リフレクターキーリングがカプセルトイに登場！
+2026-04-10 20:19:59,340 - INFO - [1단계] 번역 중: 「パペットスンスン」リフレクターキーリングがカプセルトイに登場！...
+2026-04-10 20:20:02,380 - ERROR - ❌ 번역 실패: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+2026-04-10 20:20:02,381 - WARNING - 번역 실패: 「パペットスンスン」リフレクターキーリングがカプセルトイに登場！
+2026-04-10 20:20:02,482 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135638%2F "HTTP/2 200 OK"
+2026-04-10 20:20:02,483 - INFO - 
+🚀 처리 중: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」をもらおう！
+2026-04-10 20:20:02,483 - INFO - [1단계] 번역 중: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」...
+2026-04-10 20:20:05,642 - ERROR - ❌ 번역 실패: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+2026-04-10 20:20:05,642 - WARNING - 번역 실패: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」
+2026-04-10 20:20:05,750 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135627%2F "HTTP/2 200 OK"
+2026-04-10 20:20:05,753 - INFO - 
+🚀 처리 중: 「PINGU™」トートバッグや巾着など縫製バラエティーコレクションがカプセルトイに登場！
+2026-04-10 20:20:05,753 - INFO - [1단계] 번역 중: 「PINGU™」トートバッグや巾着など縫製バラエティーコレクションがカプセルトイ...
+2026-04-10 20:20:08,843 - ERROR - ❌ 번역 실패: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+2026-04-10 20:20:08,845 - WARNING - 번역 실패: 「PINGU™」トートバッグや巾着など縫製バラエティーコレクションがカプセルトイ
+2026-04-10 20:20:09,020 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135614%2F "HTTP/2 200 OK"
+2026-04-10 20:20:09,021 - INFO - 
+🚀 처리 중: 「くまのプーさん」デザインの「ビオレu」ハンドソープディスペンサー＆ボディウォッシュが登場！
+2026-04-10 20:20:09,021 - INFO - [1단계] 번역 중: 「くまのプーさん」デザインの「ビオレu」ハンドソープディスペンサー＆ボディウォッ...
+2026-04-10 20:20:18,141 - ERROR - ❌ 번역 실패: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+2026-04-10 20:20:18,143 - WARNING - 번역 실패: 「くまのプーさん」デザインの「ビオレu」ハンドソープディスペンサー＆ボディウォッ
+2026-04-10 20:20:18,270 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135603%2F "HTTP/2 200 OK"
+2026-04-10 20:20:18,275 - INFO - 
+🚀 처리 중: 「エスターバニー」ポーチアソートがカプセルトイに登場！
+2026-04-10 20:20:18,275 - INFO - [1단계] 번역 중: 「エスターバニー」ポーチアソートがカプセルトイに登場！...
+2026-04-10 20:20:21,267 - ERROR - ❌ 번역 실패: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+2026-04-10 20:20:21,267 - WARNING - 번역 실패: 「エスターバニー」ポーチアソートがカプセルトイに登場！
+2026-04-10 20:20:21,366 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135595%2F "HTTP/2 200 OK"
+2026-04-10 20:20:21,368 - INFO - 
+🚀 처리 중: 「サンリオキャラクター大賞」投票券を全国のアベイルで配布！オリジナルグッズも発売！
+2026-04-10 20:20:21,368 - INFO - [1단계] 번역 중: 「サンリオキャラクター大賞」投票券を全国のアベイルで配布！オリジナルグッズも発売...
+2026-04-10 20:20:24,501 - ERROR - ❌ 번역 실패: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+2026-04-10 20:20:24,502 - WARNING - 번역 실패: 「サンリオキャラクター大賞」投票券を全国のアベイルで配布！オリジナルグッズも発売
+2026-04-10 20:20:24,608 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135585%2F "HTTP/2 200 OK"
+2026-04-10 20:20:24,611 - INFO - 
+🚀 처리 중: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショッパーが登場！
+2026-04-10 20:20:24,612 - INFO - [1단계] 번역 중: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショ...
+2026-04-10 20:20:27,528 - ERROR - ❌ 번역 실패: 
+  No API_KEY or ADC found. Please either:
+    - Set the `GOOGLE_API_KEY` environment variable.
+    - Manually pass the key with `genai.configure(api_key=my_api_key)`.
+    - Or set up Application Default Credentials, see https://ai.google.dev/gemini-api/docs/oauth for more information.
+2026-04-10 20:20:27,529 - WARNING - 번역 실패: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショ
+2026-04-10 20:20:27,529 - INFO - 
+============================================================
+2026-04-10 20:20:27,529 - INFO - 처리 결과: ✅ 0개 저장 / ❌ 10개 실패 / ⏭️ 0개 스킵
+2026-04-10 20:20:27,529 - INFO - ============================================================
+2026-04-10 20:20:27,529 - INFO - 당신이 할 일:
+2026-04-10 20:20:27,529 - INFO -   1. Supabase charalab_articles 테이블 → tistory_url 컬럼의 링크 클릭
+2026-04-10 20:20:27,529 - INFO -   2. Tistory 비공개 게시물에서 렌더링 확인
+2026-04-10 20:20:27,529 - INFO -   3. 문제 없으면 Tistory에서 '공개'로 변경
+2026-04-10 20:20:27,529 - INFO - ============================================================
+2026-04-10 20:23:29,447 - INFO - ============================================================
+2026-04-10 20:23:29,448 - INFO - CharaLab 완전 자동화 시스템 (V7 Final)
+2026-04-10 20:23:29,448 - INFO - RSS → 번역 → Supabase → Tistory 비공개 저장
+2026-04-10 20:23:29,448 - INFO - ============================================================
+2026-04-10 20:23:29,463 - INFO - RSS 피드 분석 시작: https://charalab.com/feed/
+2026-04-10 20:23:30,657 - INFO - 뉴스 20개 발견
+2026-04-10 20:23:30,657 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135676/
+2026-04-10 20:23:31,447 - INFO - ✅ 본문 크롤링 성공 (p태그, 931자): https://charalab.com/135676/
+2026-04-10 20:23:31,450 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135670/
+2026-04-10 20:23:32,226 - INFO - ✅ 본문 크롤링 성공 (p태그, 937자): https://charalab.com/135670/
+2026-04-10 20:23:32,229 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135658/
+2026-04-10 20:23:33,144 - INFO - ✅ 본문 크롤링 성공 (p태그, 1689자): https://charalab.com/135658/
+2026-04-10 20:23:33,147 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135647/
+2026-04-10 20:23:33,861 - INFO - ✅ 본문 크롤링 성공 (p태그, 1122자): https://charalab.com/135647/
+2026-04-10 20:23:33,864 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135638/
+2026-04-10 20:23:34,683 - INFO - ✅ 본문 크롤링 성공 (p태그, 1020자): https://charalab.com/135638/
+2026-04-10 20:23:34,687 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135627/
+2026-04-10 20:23:35,402 - INFO - ✅ 본문 크롤링 성공 (p태그, 1216자): https://charalab.com/135627/
+2026-04-10 20:23:35,405 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135614/
+2026-04-10 20:23:36,320 - INFO - ✅ 본문 크롤링 성공 (p태그, 1281자): https://charalab.com/135614/
+2026-04-10 20:23:36,323 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135603/
+2026-04-10 20:23:37,217 - INFO - ✅ 본문 크롤링 성공 (p태그, 1168자): https://charalab.com/135603/
+2026-04-10 20:23:37,220 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135595/
+2026-04-10 20:23:37,884 - INFO - ✅ 본문 크롤링 성공 (p태그, 1081자): https://charalab.com/135595/
+2026-04-10 20:23:37,888 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135585/
+2026-04-10 20:23:38,527 - INFO - ✅ 본문 크롤링 성공 (p태그, 1193자): https://charalab.com/135585/
+2026-04-10 20:23:38,530 - INFO - 필터링 후 10개 기사 수집
+2026-04-10 20:23:39,287 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135676%2F "HTTP/2 200 OK"
+2026-04-10 20:23:39,293 - INFO - 
+🚀 처리 중: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐イレブン」コラボ商品を首都圏エリア限定で
+2026-04-10 20:23:39,294 - INFO - [1단계] 번역 중: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐イレブン」コラボ商品...
+2026-04-10 20:23:43,720 - INFO - [2단계] 다듬기 중: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐イレブン」コラボ商品...
+2026-04-10 20:23:45,073 - INFO - ✅ 번역 완료: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐イレブン」コラボ商品...
+2026-04-10 20:23:45,223 - INFO - HTTP Request: POST https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles "HTTP/2 201 Created"
+2026-04-10 20:23:45,227 - INFO - ✅ Supabase 저장: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐
+2026-04-10 20:23:45,229 - INFO - 🚀 Tistory 비공개 저장 중: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐イレブン」コラボ商品...
+2026-04-10 20:23:46,730 - INFO - 글쓰기 페이지: https://irunaru.tistory.com/manage/posts/write
+2026-04-10 20:23:54,121 - WARNING - ⚠️ 비공개 설정 실패 — 기본값(공개)으로 저장됩니다
+2026-04-10 20:24:00,148 - INFO - ✅ Tistory 비공개 저장 완료: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:24:00,525 - INFO - HTTP Request: PATCH https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?id=eq.7a54f2d2-1ae8-4728-b4ce-3ac0db7a9126 "HTTP/2 200 OK"
+2026-04-10 20:24:00,528 - INFO - ✅ Tistory URL 업데이트: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:24:00,528 - INFO - ✅ 이력 저장: 135676
+2026-04-10 20:24:00,528 - INFO - ✅ 완료: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐
+2026-04-10 20:24:00,528 - INFO -    🔗 비공개 링크: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:24:02,632 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135670%2F "HTTP/2 200 OK"
+2026-04-10 20:24:02,633 - INFO - 
+🚀 처리 중: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコーンやドリンク風のアクスタが全国の主要劇場
+2026-04-10 20:24:02,634 - INFO - [1단계] 번역 중: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコーンやドリンク風のアク...
+2026-04-10 20:24:03,752 - INFO - [2단계] 다듬기 중: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコーンやドリンク風のアク...
+2026-04-10 20:24:07,954 - INFO - ✅ 번역 완료: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコーンやドリンク風のアク...
+2026-04-10 20:24:08,094 - INFO - HTTP Request: POST https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles "HTTP/2 201 Created"
+2026-04-10 20:24:08,097 - INFO - ✅ Supabase 저장: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコー
+2026-04-10 20:24:08,097 - INFO - 🚀 Tistory 비공개 저장 중: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコーンやドリンク風のアク...
+2026-04-10 20:24:09,166 - INFO - 글쓰기 페이지: https://irunaru.tistory.com/manage/posts/write
+2026-04-10 20:24:16,561 - WARNING - ⚠️ 비공개 설정 실패 — 기본값(공개)으로 저장됩니다
+2026-04-10 20:24:22,601 - INFO - ✅ Tistory 비공개 저장 완료: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:24:22,890 - INFO - HTTP Request: PATCH https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?id=eq.c20fc90b-b806-4e04-b372-975a81f83344 "HTTP/2 200 OK"
+2026-04-10 20:24:22,901 - INFO - ✅ Tistory URL 업데이트: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:24:22,902 - INFO - ✅ 이력 저장: 135670
+2026-04-10 20:24:22,902 - INFO - ✅ 완료: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコー
+2026-04-10 20:24:22,902 - INFO -    🔗 비공개 링크: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:24:25,003 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135658%2F "HTTP/2 200 OK"
+2026-04-10 20:24:25,005 - INFO - 
+🚀 처리 중: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が登場！
+2026-04-10 20:24:25,008 - INFO - [1단계] 번역 중: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が登場！...
+2026-04-10 20:24:26,198 - INFO - [2단계] 다듬기 중: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が登場！...
+2026-04-10 20:24:30,116 - INFO - ✅ 번역 완료: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が登場！...
+2026-04-10 20:24:30,260 - INFO - HTTP Request: POST https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles "HTTP/2 201 Created"
+2026-04-10 20:24:30,264 - INFO - ✅ Supabase 저장: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が
+2026-04-10 20:24:30,265 - INFO - 🚀 Tistory 비공개 저장 중: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が登場！...
+2026-04-10 20:24:31,710 - INFO - 글쓰기 페이지: https://irunaru.tistory.com/manage/posts/write
+2026-04-10 20:24:39,082 - WARNING - ⚠️ 비공개 설정 실패 — 기본값(공개)으로 저장됩니다
+2026-04-10 20:24:45,109 - INFO - ✅ Tistory 비공개 저장 완료: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:24:45,318 - INFO - HTTP Request: PATCH https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?id=eq.efbad642-d9ea-4754-896d-7eda14d375ff "HTTP/2 200 OK"
+2026-04-10 20:24:45,329 - INFO - ✅ Tistory URL 업데이트: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:24:45,329 - INFO - ✅ 이력 저장: 135658
+2026-04-10 20:24:45,329 - INFO - ✅ 완료: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が
+2026-04-10 20:24:45,329 - INFO -    🔗 비공개 링크: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:24:47,513 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135647%2F "HTTP/2 200 OK"
+2026-04-10 20:24:47,517 - INFO - 
+🚀 처리 중: 「パペットスンスン」リフレクターキーリングがカプセルトイに登場！
+2026-04-10 20:24:47,517 - INFO - [1단계] 번역 중: 「パペットスンスン」リフレクターキーリングがカプセルトイに登場！...
+2026-04-10 20:24:48,787 - INFO - [2단계] 다듬기 중: 「パペットスンスン」リフレクターキーリングがカプセルトイに登場！...
+2026-04-10 20:24:50,045 - INFO - ✅ 번역 완료: 「パペットスンスン」リフレクターキーリングがカプセルトイに登場！...
+2026-04-10 20:24:50,454 - INFO - HTTP Request: POST https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles "HTTP/2 201 Created"
+2026-04-10 20:24:50,456 - INFO - ✅ Supabase 저장: 「パペットスンスン」リフレクターキーリングがカプセルトイに登
+2026-04-10 20:24:50,456 - INFO - 🚀 Tistory 비공개 저장 중: 「パペットスンスン」リフレクターキーリングがカプセルトイに登場！...
+2026-04-10 20:24:50,825 - INFO - 글쓰기 페이지: https://irunaru.tistory.com/manage/posts/write
+2026-04-10 20:24:58,903 - WARNING - ⚠️ 비공개 설정 실패 — 기본값(공개)으로 저장됩니다
+2026-04-10 20:25:04,933 - INFO - ✅ Tistory 비공개 저장 완료: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:25:05,239 - INFO - HTTP Request: PATCH https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?id=eq.239e6db7-832a-452e-878d-a7c088a5014a "HTTP/2 200 OK"
+2026-04-10 20:25:05,241 - INFO - ✅ Tistory URL 업데이트: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:25:05,241 - INFO - ✅ 이력 저장: 135647
+2026-04-10 20:25:05,241 - INFO - ✅ 완료: 「パペットスンスン」リフレクターキーリングがカプセルトイに登
+2026-04-10 20:25:05,241 - INFO -    🔗 비공개 링크: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:25:07,431 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135638%2F "HTTP/2 200 OK"
+2026-04-10 20:25:07,433 - INFO - 
+🚀 처리 중: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」をもらおう！
+2026-04-10 20:25:07,433 - INFO - [1단계] 번역 중: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」...
+2026-04-10 20:25:08,680 - INFO - [2단계] 다듬기 중: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」...
+2026-04-10 20:25:08,801 - ERROR - ❌ 번역 실패: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 51.252530274s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 51
+}
+]
+2026-04-10 20:25:08,802 - WARNING - 번역 실패: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」
+2026-04-10 20:25:08,912 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135627%2F "HTTP/2 200 OK"
+2026-04-10 20:25:08,913 - INFO - 
+🚀 처리 중: 「PINGU™」トートバッグや巾着など縫製バラエティーコレクションがカプセルトイに登場！
+2026-04-10 20:25:08,914 - INFO - [1단계] 번역 중: 「PINGU™」トートバッグや巾着など縫製バラエティーコレクションがカプセルトイ...
+2026-04-10 20:25:09,034 - ERROR - ❌ 번역 실패: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 51.018305013s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 51
+}
+]
+2026-04-10 20:25:09,034 - WARNING - 번역 실패: 「PINGU™」トートバッグや巾着など縫製バラエティーコレクションがカプセルトイ
+2026-04-10 20:25:09,291 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135614%2F "HTTP/2 200 OK"
+2026-04-10 20:25:09,293 - INFO - 
+🚀 처리 중: 「くまのプーさん」デザインの「ビオレu」ハンドソープディスペンサー＆ボディウォッシュが登場！
+2026-04-10 20:25:09,293 - INFO - [1단계] 번역 중: 「くまのプーさん」デザインの「ビオレu」ハンドソープディスペンサー＆ボディウォッ...
+2026-04-10 20:25:09,433 - ERROR - ❌ 번역 실패: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 50.649104811s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 50
+}
+]
+2026-04-10 20:25:09,434 - WARNING - 번역 실패: 「くまのプーさん」デザインの「ビオレu」ハンドソープディスペンサー＆ボディウォッ
+2026-04-10 20:25:09,532 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135603%2F "HTTP/2 200 OK"
+2026-04-10 20:25:09,534 - INFO - 
+🚀 처리 중: 「エスターバニー」ポーチアソートがカプセルトイに登場！
+2026-04-10 20:25:09,534 - INFO - [1단계] 번역 중: 「エスターバニー」ポーチアソートがカプセルトイに登場！...
+2026-04-10 20:25:11,817 - INFO - [2단계] 다듬기 중: 「エスターバニー」ポーチアソートがカプセルトイに登場！...
+2026-04-10 20:25:12,981 - INFO - ✅ 번역 완료: 「エスターバニー」ポーチアソートがカプセルトイに登場！...
+2026-04-10 20:25:13,108 - INFO - HTTP Request: POST https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles "HTTP/2 201 Created"
+2026-04-10 20:25:13,109 - INFO - ✅ Supabase 저장: 「エスターバニー」ポーチアソートがカプセルトイに登場！
+2026-04-10 20:25:13,109 - INFO - 🚀 Tistory 비공개 저장 중: 「エスターバニー」ポーチアソートがカプセルトイに登場！...
+2026-04-10 20:25:13,560 - INFO - 글쓰기 페이지: https://irunaru.tistory.com/manage/posts/write
+2026-04-10 20:25:21,036 - WARNING - ⚠️ 비공개 설정 실패 — 기본값(공개)으로 저장됩니다
+2026-04-10 20:25:27,063 - INFO - ✅ Tistory 비공개 저장 완료: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:25:27,371 - INFO - HTTP Request: PATCH https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?id=eq.df970683-bce3-4e11-b440-c9d8e18d3d02 "HTTP/2 200 OK"
+2026-04-10 20:25:27,373 - INFO - ✅ Tistory URL 업데이트: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:25:27,374 - INFO - ✅ 이력 저장: 135603
+2026-04-10 20:25:27,374 - INFO - ✅ 완료: 「エスターバニー」ポーチアソートがカプセルトイに登場！
+2026-04-10 20:25:27,374 - INFO -    🔗 비공개 링크: https://www.tistory.com/auth/login?redirectUrl=https%3A%2F%2Firunaru.tistory.com%2Fmanage%2Fposts%2Fwrite
+2026-04-10 20:25:29,623 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135595%2F "HTTP/2 200 OK"
+2026-04-10 20:25:29,625 - INFO - 
+🚀 처리 중: 「サンリオキャラクター大賞」投票券を全国のアベイルで配布！オリジナルグッズも発売！
+2026-04-10 20:25:29,625 - INFO - [1단계] 번역 중: 「サンリオキャラクター大賞」投票券を全国のアベイルで配布！オリジナルグッズも発売...
+2026-04-10 20:25:29,758 - ERROR - ❌ 번역 실패: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 30.297841189s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 30
+}
+]
+2026-04-10 20:25:29,759 - WARNING - 번역 실패: 「サンリオキャラクター大賞」投票券を全国のアベイルで配布！オリジナルグッズも発売
+2026-04-10 20:25:29,882 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135585%2F "HTTP/2 200 OK"
+2026-04-10 20:25:29,883 - INFO - 
+🚀 처리 중: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショッパーが登場！
+2026-04-10 20:25:29,883 - INFO - [1단계] 번역 중: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショ...
+2026-04-10 20:25:30,011 - ERROR - ❌ 번역 실패: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 30.039068908s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 30
+}
+]
+2026-04-10 20:25:30,012 - WARNING - 번역 실패: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショ
+2026-04-10 20:25:30,012 - INFO - 
+============================================================
+2026-04-10 20:25:30,012 - INFO - 처리 결과: ✅ 5개 저장 / ❌ 5개 실패 / ⏭️ 0개 스킵
+2026-04-10 20:25:30,012 - INFO - ============================================================
+2026-04-10 20:25:30,012 - INFO - 당신이 할 일:
+2026-04-10 20:25:30,012 - INFO -   1. Supabase charalab_articles 테이블 → tistory_url 컬럼의 링크 클릭
+2026-04-10 20:25:30,013 - INFO -   2. Tistory 비공개 게시물에서 렌더링 확인
+2026-04-10 20:25:30,013 - INFO -   3. 문제 없으면 Tistory에서 '공개'로 변경
+2026-04-10 20:25:30,013 - INFO - ============================================================
+2026-04-10 20:34:44,519 - INFO - ============================================================
+2026-04-10 20:34:44,520 - INFO - CharaLab 완전 자동화 시스템 (V7 Final)
+2026-04-10 20:34:44,520 - INFO - RSS → 번역 → Supabase → Tistory 비공개 저장
+2026-04-10 20:34:44,520 - INFO - ============================================================
+2026-04-10 20:34:44,534 - INFO - RSS 피드 분석 시작: https://charalab.com/feed/
+2026-04-10 20:34:45,565 - INFO - 뉴스 20개 발견
+2026-04-10 20:34:45,565 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135676/
+2026-04-10 20:34:46,277 - INFO - ✅ 본문 크롤링 성공 (p태그, 971자): https://charalab.com/135676/
+2026-04-10 20:34:46,279 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135670/
+2026-04-10 20:34:46,947 - INFO - ✅ 본문 크롤링 성공 (p태그, 961자): https://charalab.com/135670/
+2026-04-10 20:34:46,950 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135658/
+2026-04-10 20:34:47,869 - INFO - ✅ 본문 크롤링 성공 (p태그, 1730자): https://charalab.com/135658/
+2026-04-10 20:34:47,873 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135647/
+2026-04-10 20:34:48,545 - INFO - ✅ 본문 크롤링 성공 (p태그, 1111자): https://charalab.com/135647/
+2026-04-10 20:34:48,548 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135638/
+2026-04-10 20:34:49,408 - INFO - ✅ 본문 크롤링 성공 (p태그, 1068자): https://charalab.com/135638/
+2026-04-10 20:34:49,411 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135627/
+2026-04-10 20:34:50,226 - INFO - ✅ 본문 크롤링 성공 (p태그, 1198자): https://charalab.com/135627/
+2026-04-10 20:34:50,230 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135614/
+2026-04-10 20:34:51,047 - INFO - ✅ 본문 크롤링 성공 (p태그, 1255자): https://charalab.com/135614/
+2026-04-10 20:34:51,051 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135603/
+2026-04-10 20:34:51,758 - INFO - ✅ 본문 크롤링 성공 (p태그, 1156자): https://charalab.com/135603/
+2026-04-10 20:34:51,761 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135595/
+2026-04-10 20:34:52,535 - INFO - ✅ 본문 크롤링 성공 (p태그, 1100자): https://charalab.com/135595/
+2026-04-10 20:34:52,538 - INFO - RSS 본문 없음 → 직접 크롤링: https://charalab.com/135585/
+2026-04-10 20:34:53,300 - INFO - ✅ 본문 크롤링 성공 (p태그, 1156자): https://charalab.com/135585/
+2026-04-10 20:34:53,304 - INFO - 필터링 후 10개 기사 수집
+2026-04-10 20:34:53,304 - INFO - ⏭️ 이력 스킵: 劇場版最新作『名探偵コナン ハイウェイの堕天使』×「セブン‐イレブン」コラボ商品
+2026-04-10 20:34:53,304 - INFO - ⏭️ 이력 스킵: 劇場版『名探偵コナン ハイウェイの堕天使』映画館のポップコーンやドリンク風のアク
+2026-04-10 20:34:53,304 - INFO - ⏭️ 이력 스킵: 「ハローキティ」×「ANNA SUI」コラボアイテム第3弾が登場！
+2026-04-10 20:34:53,304 - INFO - ⏭️ 이력 스킵: 「パペットスンスン」リフレクターキーリングがカプセルトイに登場！
+2026-04-10 20:34:54,032 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135638%2F "HTTP/2 200 OK"
+2026-04-10 20:34:54,038 - INFO - 
+🚀 처리 중: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」をもらおう！
+2026-04-10 20:34:54,039 - INFO - [1단계] 번역 중: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」...
+2026-04-10 20:34:57,491 - INFO - [2단계] 다듬기 중: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」...
+2026-04-10 20:34:57,786 - ERROR - ❌ 번역 실패: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 2.270079424s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 2
+}
+]
+2026-04-10 20:34:57,786 - WARNING - 번역 실패: 「チェゴシム」×「ローソン」キャンペーン実施！お菓子を買って「お守りステッカー」
+2026-04-10 20:34:57,892 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135627%2F "HTTP/2 200 OK"
+2026-04-10 20:34:57,897 - INFO - 
+🚀 처리 중: 「PINGU™」トートバッグや巾着など縫製バラエティーコレクションがカプセルトイに登場！
+2026-04-10 20:34:57,897 - INFO - [1단계] 번역 중: 「PINGU™」トートバッグや巾着など縫製バラエティーコレクションがカプセルトイ...
+2026-04-10 20:34:58,020 - ERROR - ❌ 번역 실패: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 2.036179881s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 2
+}
+]
+2026-04-10 20:34:58,020 - WARNING - 번역 실패: 「PINGU™」トートバッグや巾着など縫製バラエティーコレクションがカプセルトイ
+2026-04-10 20:34:58,190 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135614%2F "HTTP/2 200 OK"
+2026-04-10 20:34:58,194 - INFO - 
+🚀 처리 중: 「くまのプーさん」デザインの「ビオレu」ハンドソープディスペンサー＆ボディウォッシュが登場！
+2026-04-10 20:34:58,194 - INFO - [1단계] 번역 중: 「くまのプーさん」デザインの「ビオレu」ハンドソープディスペンサー＆ボディウォッ...
+2026-04-10 20:34:58,325 - ERROR - ❌ 번역 실패: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 1.732505227s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 1
+}
+]
+2026-04-10 20:34:58,326 - WARNING - 번역 실패: 「くまのプーさん」デザインの「ビオレu」ハンドソープディスペンサー＆ボディウォッ
+2026-04-10 20:34:58,326 - INFO - ⏭️ 이력 스킵: 「エスターバニー」ポーチアソートがカプセルトイに登場！
+2026-04-10 20:34:58,426 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135595%2F "HTTP/2 200 OK"
+2026-04-10 20:34:58,428 - INFO - 
+🚀 처리 중: 「サンリオキャラクター大賞」投票券を全国のアベイルで配布！オリジナルグッズも発売！
+2026-04-10 20:34:58,428 - INFO - [1단계] 번역 중: 「サンリオキャラクター大賞」投票券を全国のアベイルで配布！オリジナルグッズも発売...
+2026-04-10 20:34:58,552 - ERROR - ❌ 번역 실패: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 1.502793227s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 1
+}
+]
+2026-04-10 20:34:58,552 - WARNING - 번역 실패: 「サンリオキャラクター大賞」投票券を全国のアベイルで配布！オリジナルグッズも発売
+2026-04-10 20:34:58,720 - INFO - HTTP Request: GET https://ldcbtwuhdcsqpyurhnuf.supabase.co/rest/v1/charalab_articles?select=id&original_url=eq.https%3A%2F%2Fcharalab.com%2F135585%2F "HTTP/2 200 OK"
+2026-04-10 20:34:58,721 - INFO - 
+🚀 처리 중: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショッパーが登場！
+2026-04-10 20:34:58,722 - INFO - [1단계] 번역 중: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショ...
+2026-04-10 20:35:02,302 - INFO - [2단계] 다듬기 중: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショ...
+2026-04-10 20:35:02,610 - ERROR - ❌ 번역 실패: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash-lite
+Please retry in 57.449243476s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 57
+}
+]
+2026-04-10 20:35:02,610 - WARNING - 번역 실패: 劇場版『名探偵コナン ハイウェイの堕天使』×「横浜バニラ」コラボパッケージ・ショ
+2026-04-10 20:35:02,610 - INFO - 
+============================================================
+2026-04-10 20:35:02,611 - INFO - 처리 결과: ✅ 0개 저장 / ❌ 5개 실패 / ⏭️ 5개 스킵
+2026-04-10 20:35:02,611 - INFO - ============================================================
+2026-04-10 20:35:02,611 - INFO - 당신이 할 일:
+2026-04-10 20:35:02,611 - INFO -   1. Supabase charalab_articles 테이블 → tistory_url 컬럼의 링크 클릭
+2026-04-10 20:35:02,611 - INFO -   2. Tistory 비공개 게시물에서 렌더링 확인
+2026-04-10 20:35:02,611 - INFO -   3. 문제 없으면 Tistory에서 '공개'로 변경
+2026-04-10 20:35:02,611 - INFO - ============================================================
