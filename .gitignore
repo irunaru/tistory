@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Tistory Session (Sensitive)
+auth.json
+
+# Tool Generated
+tistory_debug.html
+tistory_debug.py
+tistory_writer_fixed.py
+insert_test_post.py
+
+# OS
+.DS_Store
