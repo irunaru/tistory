@@ -20,8 +20,8 @@ load_dotenv()
 class CharaLabCrawlerV6_1:
     def __init__(self):
         # 환경 변수 명시적 로드 및 기본값 설정
-        # 환경변수 주입 오류를 막기 위해 철저하게 gemini-pro를 기본값으로 사용
-        self.model_name = os.getenv("GEMINI_MODEL", "gemini-pro") 
+        # 환경변수 주입 오류를 막기 위해 철저하게 gemini-2.5-flash-lite를 기본값으로 사용
+        self.model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite") 
         self.force_update = os.getenv("FORCE_UPDATE", "false").lower() == "true"
         self.target_url = os.getenv("TARGET_URL", "")
         
