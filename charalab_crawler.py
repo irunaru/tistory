@@ -22,7 +22,7 @@ class CharaLabCrawlerV6:
         # 환경 변수를 통한 설정 (수동 트리거 지원)
         self.target_url = os.getenv("TARGET_URL")
         self.force_update = os.getenv("FORCE_UPDATE", "false").lower() == "true"
-        self.model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+        self.model_name = os.getenv("GEMINI_MODEL", "gemini-pro")
         
         # 기본 경로 설정
         self.history_file = "posted_articles_charalab.json"

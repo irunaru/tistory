@@ -20,10 +20,10 @@ on:
       gemini_model:
         description: '사용할 모델 선택'
         required: true
-        default: 'gemini-1.5-flash'
+        default: 'gemini-pro'
         type: choice
         options:
-        - 'gemini-1.5-flash'
+        - 'gemini-pro'
         - 'gemini-1.5-pro'
 
 jobs:
@@ -53,7 +53,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           FORCE_UPDATE: ${{ github.event.inputs.force_update || 'false' }}
           TARGET_URL: ${{ github.event.inputs.target_url || '' }}
-          GEMINI_MODEL: ${{ github.event.inputs.gemini_model || 'gemini-1.5-flash' }}
+          GEMINI_MODEL: ${{ github.event.inputs.gemini_model || 'gemini-pro' }}
         run: |
           python charalab_crawler.py
 
