@@ -85,7 +85,7 @@ class CharaLabSystemFinal:
     async def write_to_tistory(self, page: Page, title: str, content_html: str) -> bool:
         """playwright_tistory_core.py의 TistoryWriter.write_post 로직 그대로 사용"""
         try:
-            write_url = f"https://{self.blog_name}.tistory.com/manage/post"
+            write_url = f"https://{self.blog_name}.tistory.com/manage/posts/write"
             await page.goto(write_url, wait_until='networkidle', timeout=30000)
             await asyncio.sleep(5)
             await page.keyboard.press("Escape")  # 팝업 닫기
