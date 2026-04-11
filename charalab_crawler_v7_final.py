@@ -91,94 +91,113 @@ class CharaLabSystemFinal:
             await asyncio.sleep(2)
             logger.info(f"카카오 페이지: {page.url}")
 
-            # 3. 이메일 입력 (카카오 2단계: 이메일 → 확인 → 비밀번호)
-            # 이메일 라디오 버튼 선택 (있는 경우)
-            try:
-                radio = page.locator('#id_email_2_label, label[for="id_email_2"]').first
-                if await radio.count() > 0:
-                    await radio.click()
-                    await asyncio.sleep(0.5)
-            except Exception:
-                pass
+            # 3. 카카오 로그인 - 이메일만 있는 경우 (한 화면에 이메일+비밀번호)
+            await asyncio.sleep(1)
+            has_pw = await page.locator('input[name="password"], input[type="password"]').count() > 0
 
-            # 이메일 입력
-            for id_sel in ['#id_email_2', 'input[name="loginId"]', 'input[type="email"]']:
-                el = page.locator(id_sel).first
-                if await el.count() > 0:
-                    await el.fill(self.tistory_id)
-                    logger.info(f"이메일 입력 완료 ({id_sel})")
-                    break
+            if has_pw:
+                # 한 화면에 이메일+비밀번호 모두 있는 경우
+                for id_sel in ['input[name="loginId"]', '#id_email_2', 'input[type="email"]']:
+                    el = page.locator(id_sel).first
+                    if await el.count() > 0:
+                        await el.fill(self.tistory_id)
+                        logger.info(f"이메일 입력 완료 ({id_sel})")
+                        break
+                await asyncio.sleep(0.3)
+                for pw_sel in ['input[name="password"]', '#id_password_3', 'input[type="password"]']:
+                    el = page.locator(pw_sel).first
+                    if await el.count() > 0:
+                        await el.fill(self.tistory_pw)
+                        logger.info(f"비밀번호 입력 완료 ({pw_sel})")
+                        break
+                await asyncio.sleep(0.3)
+                for submit_sel in ['button[type="submit"]', "button:has-text('로그인')'"]:
+                    el = page.locator(submit_sel).first
+                    if await el.count() > 0:
+                        await el.click()
+                        logger.info("로그인 버튼 클릭")
+                        break
+            else:
+                # 이메일만 먼저 입력하는 경우
+                for id_sel in ['input[name="loginId"]', '#id_email_2', 'input[type="email"]']:
+                    el = page.locator(id_sel).first
+                    if await el.count() > 0:
+                        await el.fill(self.tistory_id)
+                        logger.info(f"이메일 입력 완료 ({id_sel})")
+                        break
+                await asyncio.sleep(0.3)
+                for confirm_sel in ["button:has-text('확인')", "button:has-text('다음')", 'button[type="submit"]']:
+                    el = page.locator(confirm_sel).first
+                    if await el.count() > 0:
+                        await el.click()
+                        logger.info(f"이메일 확인 클릭")
+                        break
+                await page.wait_for_load_state('networkidle', timeout=10000)
+                await asyncio.sleep(1)
 
-            await asyncio.sleep(0.5)
-
-            # 이메일 확인 버튼 (카카오 1단계)
-            for confirm_sel in ['button:has-text("확인")', 'button:has-text("다음")', '#btnNext']:
-                el = page.locator(confirm_sel).first
-                if await el.count() > 0:
-                    await el.click()
-                    await asyncio.sleep(1)
-                    logger.info(f"이메일 확인 클릭 ({confirm_sel})")
-                    break
-
-            # 4. 비밀번호 입력
-            for pw_sel in ['#id_password_3', 'input[name="password"]', 'input[type="password"]']:
-                el = page.locator(pw_sel).first
-                if await el.count() > 0:
-                    await el.fill(self.tistory_pw)
-                    logger.info(f"비밀번호 입력 완료 ({pw_sel})")
-                    break
-
-            await asyncio.sleep(0.5)
-
-            # 5. 로그인 버튼 클릭
-            for submit_sel in ["button:has-text('로그인')", 'button[type="submit"]']:
-                el = page.locator(submit_sel).first
-                if await el.count() > 0:
-                    await el.click()
-                    logger.info(f"로그인 버튼 클릭")
-                    break
+                # 비밀번호 입력
+                for pw_sel in ['input[name="password"]', '#id_password_3', 'input[type="password"]']:
+                    el = page.locator(pw_sel).first
+                    if await el.count() > 0:
+                        await el.fill(self.tistory_pw)
+                        logger.info(f"비밀번호 입력 완료 ({pw_sel})")
+                        break
+                await asyncio.sleep(0.3)
+                for submit_sel in ['button[type="submit"]', "button:has-text('로그인')"]:
+                    el = page.locator(submit_sel).first
+                    if await el.count() > 0:
+                        await el.click()
+                        logger.info("로그인 버튼 클릭")
+                        break
 
             await page.wait_for_load_state('networkidle', timeout=15000)
             await asyncio.sleep(2)
             logger.info(f"로그인 후 URL: {page.url}")
 
-            # 6. #selectEmail 화면 처리
-            try:
-                await page.wait_for_selector('#selectEmail', timeout=5000)
-                logger.info("이메일 선택 화면 감지")
-                # select_option으로 이메일 선택
-                try:
-                    await page.select_option('#selectEmail', label=self.tistory_id.split('@')[0])
-                    logger.info("select_option으로 이메일 선택")
-                except Exception:
-                    # 직접 클릭 방식
-                    for email_sel in [
-                        f'a:has-text("{self.tistory_id}")',
-                        f'button:has-text("{self.tistory_id}")',
-                        '.list_email li:first-child a',
-                        '.list_email li:first-child button',
-                        'li:has-text("@") a',
-                    ]:
-                        el = page.locator(email_sel).first
-                        if await el.count() > 0:
-                            await el.click()
-                            logger.info(f"이메일 직접 클릭 ({email_sel})")
-                            break
+            # 6. #selectEmail 화면 처리 (URL 해시 기반)
+            if 'selectEmail' in page.url:
+                logger.info("이메일 선택 화면 감지 (#selectEmail)")
+                await asyncio.sleep(1)
 
-                # 확인 버튼
-                for confirm_sel in ["button:has-text('확인')", "button:has-text('계속')"]:
-                    el = page.locator(confirm_sel).first
+                # 이메일 링크/버튼 클릭 시도
+                clicked = False
+                for email_sel in [
+                    f'a:has-text("{self.tistory_id}")',
+                    f'button:has-text("{self.tistory_id}")',
+                    f'a:has-text("{self.tistory_id.split("@")[0]}")',
+                    '.list_email li:first-child a',
+                    '.list_email li:first-child button',
+                    '.kakao_account li:first-child a',
+                    'li:has-text("@") a',
+                    'li:has-text("@") button',
+                    'a.btn_account',
+                ]:
+                    el = page.locator(email_sel).first
                     if await el.count() > 0:
                         await el.click()
-                        logger.info("이메일 선택 확인 클릭")
+                        clicked = True
+                        logger.info(f"이메일 선택 클릭 ({email_sel})")
                         break
+
+                if not clicked:
+                    # JS로 첫 번째 이메일 항목 강제 클릭
+                    await page.evaluate("""
+                        () => {
+                            const links = document.querySelectorAll('a[href], button');
+                            for (const el of links) {
+                                if (el.textContent.includes('@')) {
+                                    el.click();
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    """)
+                    logger.info("JS로 이메일 강제 클릭 시도")
 
                 await page.wait_for_load_state('networkidle', timeout=15000)
                 await asyncio.sleep(3)
                 logger.info(f"이메일 선택 후 URL: {page.url}")
-
-            except Exception:
-                logger.info("이메일 선택 화면 없음 → 계속 진행")
 
             # 7. 로그인 성공 확인
             if 'tistory.com' in page.url and 'login' not in page.url:
