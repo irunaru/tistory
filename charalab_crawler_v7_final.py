@@ -143,10 +143,29 @@ class CharaLabSystemFinal:
                     break
 
             await page.wait_for_load_state('networkidle', timeout=15000)
-            await asyncio.sleep(3)
+            await asyncio.sleep(2)
             logger.info(f"로그인 후 URL: {page.url}")
 
-            if 'login' not in page.url and 'auth' not in page.url:
+            # 카카오 이메일 선택 화면 처리 (#selectEmail)
+            if 'selectEmail' in page.url or 'select_email' in page.url.lower():
+                logger.info("이메일 선택 화면 감지 → 이메일 선택 시도")
+                for email_sel in [
+                    f'button:has-text("{self.tistory_id}")',
+                    f'a:has-text("{self.tistory_id}")',
+                    '.list_email li:first-child button',
+                    '.list_account li:first-child button',
+                    'li:has-text("@") button',
+                    'button.btn_mail',
+                ]:
+                    el = page.locator(email_sel).first
+                    if await el.count() > 0:
+                        await el.click()
+                        await page.wait_for_load_state('networkidle', timeout=15000)
+                        await asyncio.sleep(3)
+                        logger.info(f"이메일 선택 후 URL: {page.url}")
+                        break
+
+            if 'kakao' not in page.url and 'login' not in page.url:
                 logger.info("✓ 재로그인 성공")
                 storage = await context.storage_state()
                 with open("auth.json", "w") as f:
