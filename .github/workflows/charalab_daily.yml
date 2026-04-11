@@ -47,6 +47,9 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: gemini-2.5-flash-lite
           TISTORY_BLOG_NAME: ${{ secrets.TISTORY_BLOG_NAME || 'irunaru' }}
+          TISTORY_LOGIN_ID: ${{ secrets.TISTORY_LOGIN_ID }}
+          TISTORY_PASSWORD: ${{ secrets.TISTORY_PASSWORD }}
+
         run: |
           # 가상 화면을 띄워 headless=False 코드를 우회 실행합니다.
           xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" python charalab_crawler_v7_final.py
