@@ -77,38 +77,32 @@ class CharaLabSystemFinal:
             return False
 
     async def _login(self, context: BrowserContext) -> bool:
-        """Tistory 로그인 후 auth.json 갱신"""
+        """Tistory 카카오 로그인 - 2단계 입력 + #selectEmail 처리"""
         page = await context.new_page()
         try:
+            # 1. Tistory 로그인 페이지
             await page.goto("https://www.tistory.com/auth/login", wait_until='networkidle', timeout=15000)
-            await asyncio.sleep(3)
-            logger.info(f"로그인 페이지 URL: {page.url}")
+            await asyncio.sleep(2)
+            logger.info(f"로그인 페이지: {page.url}")
 
-            # 카카오 로그인 버튼 클릭
-            for kakao_sel in [
-                'a:has-text("카카오")',
-                'button:has-text("카카오")',
-                'a.kakao',
-                'button.kakao',
-                'a[href*="kakao"]',
-                '.btn_kakao',
-            ]:
-                btn = page.locator(kakao_sel).first
-                if await btn.count() > 0:
-                    await btn.click()
-                    await page.wait_for_load_state('networkidle', timeout=15000)
-                    await asyncio.sleep(2)
-                    logger.info(f"카카오 로그인 페이지: {page.url}")
-                    break
+            # 2. 카카오 로그인 버튼 클릭
+            await page.click("text=카카오계정으로 로그인")
+            await page.wait_for_load_state('networkidle', timeout=15000)
+            await asyncio.sleep(2)
+            logger.info(f"카카오 페이지: {page.url}")
 
-            # 카카오 계정 입력
-            for id_sel in [
-                'input[name="loginId"]',
-                'input[type="email"]',
-                'input[placeholder*="이메일"]',
-                'input[placeholder*="아이디"]',
-                '#loginId',
-            ]:
+            # 3. 이메일 입력 (카카오 2단계: 이메일 → 확인 → 비밀번호)
+            # 이메일 라디오 버튼 선택 (있는 경우)
+            try:
+                radio = page.locator('#id_email_2_label, label[for="id_email_2"]').first
+                if await radio.count() > 0:
+                    await radio.click()
+                    await asyncio.sleep(0.5)
+            except Exception:
+                pass
+
+            # 이메일 입력
+            for id_sel in ['#id_email_2', 'input[name="loginId"]', 'input[type="email"]']:
                 el = page.locator(id_sel).first
                 if await el.count() > 0:
                     await el.fill(self.tistory_id)
@@ -117,11 +111,17 @@ class CharaLabSystemFinal:
 
             await asyncio.sleep(0.5)
 
-            for pw_sel in [
-                'input[name="password"]',
-                'input[type="password"]',
-                '#password',
-            ]:
+            # 이메일 확인 버튼 (카카오 1단계)
+            for confirm_sel in ['button:has-text("확인")', 'button:has-text("다음")', '#btnNext']:
+                el = page.locator(confirm_sel).first
+                if await el.count() > 0:
+                    await el.click()
+                    await asyncio.sleep(1)
+                    logger.info(f"이메일 확인 클릭 ({confirm_sel})")
+                    break
+
+            # 4. 비밀번호 입력
+            for pw_sel in ['#id_password_3', 'input[name="password"]', 'input[type="password"]']:
                 el = page.locator(pw_sel).first
                 if await el.count() > 0:
                     await el.fill(self.tistory_pw)
@@ -130,42 +130,58 @@ class CharaLabSystemFinal:
 
             await asyncio.sleep(0.5)
 
-            # 로그인 버튼 클릭
-            for submit_sel in [
-                'button[type="submit"]',
-                'button:has-text("로그인")',
-                'input[type="submit"]',
-            ]:
+            # 5. 로그인 버튼 클릭
+            for submit_sel in ["button:has-text('로그인')", 'button[type="submit"]']:
                 el = page.locator(submit_sel).first
                 if await el.count() > 0:
                     await el.click()
-                    logger.info(f"로그인 버튼 클릭 ({submit_sel})")
+                    logger.info(f"로그인 버튼 클릭")
                     break
 
             await page.wait_for_load_state('networkidle', timeout=15000)
             await asyncio.sleep(2)
             logger.info(f"로그인 후 URL: {page.url}")
 
-            # 카카오 이메일 선택 화면 처리 (#selectEmail)
-            if 'selectEmail' in page.url or 'select_email' in page.url.lower():
-                logger.info("이메일 선택 화면 감지 → 이메일 선택 시도")
-                for email_sel in [
-                    f'button:has-text("{self.tistory_id}")',
-                    f'a:has-text("{self.tistory_id}")',
-                    '.list_email li:first-child button',
-                    '.list_account li:first-child button',
-                    'li:has-text("@") button',
-                    'button.btn_mail',
-                ]:
-                    el = page.locator(email_sel).first
+            # 6. #selectEmail 화면 처리
+            try:
+                await page.wait_for_selector('#selectEmail', timeout=5000)
+                logger.info("이메일 선택 화면 감지")
+                # select_option으로 이메일 선택
+                try:
+                    await page.select_option('#selectEmail', label=self.tistory_id.split('@')[0])
+                    logger.info("select_option으로 이메일 선택")
+                except Exception:
+                    # 직접 클릭 방식
+                    for email_sel in [
+                        f'a:has-text("{self.tistory_id}")',
+                        f'button:has-text("{self.tistory_id}")',
+                        '.list_email li:first-child a',
+                        '.list_email li:first-child button',
+                        'li:has-text("@") a',
+                    ]:
+                        el = page.locator(email_sel).first
+                        if await el.count() > 0:
+                            await el.click()
+                            logger.info(f"이메일 직접 클릭 ({email_sel})")
+                            break
+
+                # 확인 버튼
+                for confirm_sel in ["button:has-text('확인')", "button:has-text('계속')"]:
+                    el = page.locator(confirm_sel).first
                     if await el.count() > 0:
                         await el.click()
-                        await page.wait_for_load_state('networkidle', timeout=15000)
-                        await asyncio.sleep(3)
-                        logger.info(f"이메일 선택 후 URL: {page.url}")
+                        logger.info("이메일 선택 확인 클릭")
                         break
 
-            if 'kakao' not in page.url and 'login' not in page.url:
+                await page.wait_for_load_state('networkidle', timeout=15000)
+                await asyncio.sleep(3)
+                logger.info(f"이메일 선택 후 URL: {page.url}")
+
+            except Exception:
+                logger.info("이메일 선택 화면 없음 → 계속 진행")
+
+            # 7. 로그인 성공 확인
+            if 'tistory.com' in page.url and 'login' not in page.url:
                 logger.info("✓ 재로그인 성공")
                 storage = await context.storage_state()
                 with open("auth.json", "w") as f:
@@ -177,6 +193,7 @@ class CharaLabSystemFinal:
                 logger.error(f"❌ 재로그인 실패. URL: {page.url}")
                 await page.close()
                 return False
+
         except Exception as e:
             logger.error(f"로그인 오류: {e}")
             await page.close()
