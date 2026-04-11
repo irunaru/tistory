@@ -81,19 +81,73 @@ class CharaLabSystemFinal:
         page = await context.new_page()
         try:
             await page.goto("https://www.tistory.com/auth/login", wait_until='networkidle', timeout=15000)
-            await asyncio.sleep(2)
+            await asyncio.sleep(3)
+            logger.info(f"로그인 페이지 URL: {page.url}")
 
-            await page.fill('input[type="text"]', self.tistory_id)
+            # 카카오 로그인 버튼 클릭
+            for kakao_sel in [
+                'a:has-text("카카오")',
+                'button:has-text("카카오")',
+                'a.kakao',
+                'button.kakao',
+                'a[href*="kakao"]',
+                '.btn_kakao',
+            ]:
+                btn = page.locator(kakao_sel).first
+                if await btn.count() > 0:
+                    await btn.click()
+                    await page.wait_for_load_state('networkidle', timeout=15000)
+                    await asyncio.sleep(2)
+                    logger.info(f"카카오 로그인 페이지: {page.url}")
+                    break
+
+            # 카카오 계정 입력
+            for id_sel in [
+                'input[name="loginId"]',
+                'input[type="email"]',
+                'input[placeholder*="이메일"]',
+                'input[placeholder*="아이디"]',
+                '#loginId',
+            ]:
+                el = page.locator(id_sel).first
+                if await el.count() > 0:
+                    await el.fill(self.tistory_id)
+                    logger.info(f"이메일 입력 완료 ({id_sel})")
+                    break
+
             await asyncio.sleep(0.5)
-            await page.fill('input[type="password"]', self.tistory_pw)
+
+            for pw_sel in [
+                'input[name="password"]',
+                'input[type="password"]',
+                '#password',
+            ]:
+                el = page.locator(pw_sel).first
+                if await el.count() > 0:
+                    await el.fill(self.tistory_pw)
+                    logger.info(f"비밀번호 입력 완료 ({pw_sel})")
+                    break
+
             await asyncio.sleep(0.5)
-            await page.click('button[type="submit"]')
+
+            # 로그인 버튼 클릭
+            for submit_sel in [
+                'button[type="submit"]',
+                'button:has-text("로그인")',
+                'input[type="submit"]',
+            ]:
+                el = page.locator(submit_sel).first
+                if await el.count() > 0:
+                    await el.click()
+                    logger.info(f"로그인 버튼 클릭 ({submit_sel})")
+                    break
+
             await page.wait_for_load_state('networkidle', timeout=15000)
-            await asyncio.sleep(2)
+            await asyncio.sleep(3)
+            logger.info(f"로그인 후 URL: {page.url}")
 
-            if 'login' not in page.url:
+            if 'login' not in page.url and 'auth' not in page.url:
                 logger.info("✓ 재로그인 성공")
-                # auth.json 갱신
                 storage = await context.storage_state()
                 with open("auth.json", "w") as f:
                     json.dump(storage, f, indent=2)
@@ -101,7 +155,7 @@ class CharaLabSystemFinal:
                 await page.close()
                 return True
             else:
-                logger.error("❌ 재로그인 실패")
+                logger.error(f"❌ 재로그인 실패. URL: {page.url}")
                 await page.close()
                 return False
         except Exception as e:
