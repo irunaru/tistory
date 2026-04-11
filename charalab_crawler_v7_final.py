@@ -12,7 +12,7 @@ from typing import Dict, Optional
 from dotenv import load_dotenv
 from supabase import create_client
 import google.generativeai as genai
-from playwright.async_api import async_playwright, Page
+from playwright.async_api import async_playwright, Page, BrowserContext
 from charalab_config import CharaLabConfig
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -43,12 +43,71 @@ class CharaLabSystemFinal:
         genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
         self.model = genai.GenerativeModel(os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite"))
         self.blog_name = os.getenv("TISTORY_BLOG_NAME", "irunaru")
+        self.tistory_id = os.getenv("TISTORY_LOGIN_ID", "")
+        self.tistory_pw = os.getenv("TISTORY_PASSWORD", "")
         self.history_file = "posted_articles_charalab.json"
         if os.path.exists(self.history_file):
             with open(self.history_file, 'r', encoding='utf-8') as f:
                 self.posted_articles = json.load(f)
         else:
             self.posted_articles = {}
+
+    # -------------------------------------------------------------------------
+    # 로그인 확인 + 재로그인 (playwright_tistory_core.py 방식 그대로)
+    # -------------------------------------------------------------------------
+    async def ensure_logged_in(self, context: BrowserContext) -> bool:
+        """로그인 상태 확인 후 필요시 재로그인"""
+        page = await context.new_page()
+        try:
+            write_url = f"https://{self.blog_name}.tistory.com/manage/post"
+            await page.goto(write_url, wait_until='networkidle', timeout=15000)
+            await asyncio.sleep(2)
+
+            if 'login' in page.url or 'auth' in page.url:
+                logger.info("세션 만료 → 재로그인 시도")
+                await page.close()
+                return await self._login(context)
+            else:
+                logger.info("✓ 로그인 상태 정상")
+                await page.close()
+                return True
+        except Exception as e:
+            logger.error(f"로그인 확인 실패: {e}")
+            await page.close()
+            return False
+
+    async def _login(self, context: BrowserContext) -> bool:
+        """Tistory 로그인 후 auth.json 갱신"""
+        page = await context.new_page()
+        try:
+            await page.goto("https://www.tistory.com/auth/login", wait_until='networkidle', timeout=15000)
+            await asyncio.sleep(2)
+
+            await page.fill('input[type="text"]', self.tistory_id)
+            await asyncio.sleep(0.5)
+            await page.fill('input[type="password"]', self.tistory_pw)
+            await asyncio.sleep(0.5)
+            await page.click('button[type="submit"]')
+            await page.wait_for_load_state('networkidle', timeout=15000)
+            await asyncio.sleep(2)
+
+            if 'login' not in page.url:
+                logger.info("✓ 재로그인 성공")
+                # auth.json 갱신
+                storage = await context.storage_state()
+                with open("auth.json", "w") as f:
+                    json.dump(storage, f, indent=2)
+                logger.info("✓ auth.json 갱신 완료")
+                await page.close()
+                return True
+            else:
+                logger.error("❌ 재로그인 실패")
+                await page.close()
+                return False
+        except Exception as e:
+            logger.error(f"로그인 오류: {e}")
+            await page.close()
+            return False
 
     # -------------------------------------------------------------------------
     # 기사 본문 크롤링
@@ -60,7 +119,6 @@ class CharaLabSystemFinal:
             r.encoding = 'utf-8'
             soup = BeautifulSoup(r.text, 'html.parser')
 
-            # OG 이미지 (대표이미지용)
             og_img = soup.select_one('meta[property="og:image"]')
             img_url = og_img.get('content', '') if og_img else ''
 
@@ -68,7 +126,6 @@ class CharaLabSystemFinal:
             if not content:
                 return None
 
-            # 이미지 URL 없으면 본문 첫 이미지 사용
             if not img_url:
                 first_img = content.select_one('img')
                 if first_img:
@@ -104,7 +161,6 @@ class CharaLabSystemFinal:
             img_b64 = base64.b64encode(r.content).decode()
             logger.info(f"이미지 다운로드 완료 ({len(r.content)} bytes)")
 
-            # Tistory AJAX 업로드
             result = await page.evaluate(f"""
                 async () => {{
                     try {{
@@ -173,9 +229,7 @@ class CharaLabSystemFinal:
             t = t_match.group(1).strip() if t_match else title
             c = c_match.group(1).strip() if c_match else raw
             c = re.sub(r'```html|```', '', c).strip()
-            # img 태그 혹시 남아있으면 제거
             c = re.sub(r'<img[^>]*/?>', '', c)
-            # 저작권 후처리
             c = remove_copyright(c)
 
             return {'title': t, 'content': c}
@@ -184,7 +238,7 @@ class CharaLabSystemFinal:
             return None
 
     # -------------------------------------------------------------------------
-    # Tistory 글쓰기 (이미지 업로드 + 가운데 정렬 + 대표이미지 + 비공개)
+    # Tistory 글쓰기
     # -------------------------------------------------------------------------
     async def write_to_tistory(
         self,
@@ -207,7 +261,7 @@ class CharaLabSystemFinal:
                 await title_field.fill(title)
                 logger.info("✓ 제목 입력 완료")
             else:
-                logger.error("❌ 제목 필드 없음")
+                logger.error("❌ 제목 필드 없음 (로그인 페이지로 리다이렉트 의심)")
                 return False
 
             await asyncio.sleep(1)
@@ -217,7 +271,6 @@ class CharaLabSystemFinal:
             if img_url:
                 tistory_img_url = await self.upload_image_to_tistory(page, img_url) or img_url
 
-            # 본문 맨 앞에 이미지 삽입 (가운데 정렬)
             if tistory_img_url:
                 img_tag = (
                     f'<p style="text-align:center;">'
@@ -262,7 +315,6 @@ class CharaLabSystemFinal:
             editor_found = False
 
             if html_mode:
-                # CodeMirror 방식 (Tistory HTML 에디터)
                 injected = await page.evaluate(f"""
                     () => {{
                         const cm = document.querySelector('.CodeMirror');
@@ -275,7 +327,7 @@ class CharaLabSystemFinal:
                 """)
                 if injected:
                     editor_found = True
-                    logger.info("✓ 본문 입력 완료 (HTML 모드 CodeMirror)")
+                    logger.info("✓ 본문 입력 완료 (HTML CodeMirror)")
 
                 if not editor_found:
                     for sel in ['textarea.CodeMirror-code', 'textarea[name="content"]', 'textarea']:
@@ -285,11 +337,10 @@ class CharaLabSystemFinal:
                             await page.keyboard.press('Control+a')
                             await page.keyboard.type(content_html, delay=0)
                             editor_found = True
-                            logger.info(f"✓ 본문 입력 완료 (HTML textarea, {sel})")
+                            logger.info(f"✓ 본문 입력 완료 (HTML textarea)")
                             break
 
             if not editor_found:
-                # 기본모드 fallback: iframe 방식
                 frame = page.frame(name="editor-tistory_ifr")
                 if frame:
                     editable = frame.locator('[contenteditable="true"]').first
@@ -322,17 +373,16 @@ class CharaLabSystemFinal:
 
             await asyncio.sleep(2)
 
-            # ── 4. 대표이미지 설정
+            # ── 5. 대표이미지 설정
             if tistory_img_url:
                 await self._set_thumbnail(page, tistory_img_url)
 
-            # ── 5. 발행 (비공개)
+            # ── 6. 발행 (비공개)
             if await page.locator('#publish-layer-btn').count() > 0:
                 await page.click('#publish-layer-btn')
                 logger.info("✓ 발행 패널 열기")
                 await asyncio.sleep(2)
 
-                # 비공개 설정
                 try:
                     priv_label = page.locator('label:has-text("비공개")').first
                     if await priv_label.count() > 0:
@@ -341,7 +391,6 @@ class CharaLabSystemFinal:
                 except Exception:
                     pass
 
-                # 최종 발행
                 for s in ['button:has-text("발행")', 'button.btn_publish', '#publish-btn']:
                     if await page.locator(s).count() > 0:
                         await page.click(s)
@@ -361,7 +410,6 @@ class CharaLabSystemFinal:
             return False
 
     async def _set_thumbnail(self, page: Page, img_url: str):
-        """대표이미지(썸네일) 설정"""
         try:
             for sel in [
                 'button:has-text("대표이미지")',
@@ -373,35 +421,21 @@ class CharaLabSystemFinal:
                 if await btn.count() > 0:
                     await btn.click()
                     await asyncio.sleep(1)
-
-                    # URL 입력 필드
-                    for input_sel in [
-                        'input[placeholder*="URL"]',
-                        'input[placeholder*="url"]',
-                        'input.thumbnail-url',
-                    ]:
+                    for input_sel in ['input[placeholder*="URL"]', 'input[placeholder*="url"]', 'input.thumbnail-url']:
                         inp = page.locator(input_sel).first
                         if await inp.count() > 0:
                             await inp.fill(img_url)
                             await inp.press('Enter')
                             await asyncio.sleep(1)
-                            logger.info("✓ 대표이미지 URL 입력 완료")
+                            logger.info("✓ 대표이미지 설정 완료")
                             break
-
-                    # 확인 버튼
-                    for confirm_sel in [
-                        'button:has-text("확인")',
-                        'button:has-text("저장")',
-                        'button:has-text("적용")',
-                    ]:
+                    for confirm_sel in ['button:has-text("확인")', 'button:has-text("저장")', 'button:has-text("적용")']:
                         confirm = page.locator(confirm_sel).first
                         if await confirm.count() > 0:
                             await confirm.click()
                             await asyncio.sleep(1)
-                            logger.info("✓ 대표이미지 설정 완료")
                             break
                     return
-
             logger.warning("⚠️ 대표이미지 버튼 없음 → 스킵")
         except Exception as e:
             logger.warning(f"대표이미지 설정 실패 (스킵): {e}")
@@ -413,7 +447,6 @@ class CharaLabSystemFinal:
         logger.info("CharaLab Final 가동")
         feed = feedparser.parse(CharaLabConfig.FEED_URL)
 
-        # 태그 필터: グッズ, ニュース만
         allowed_tags = {"グッズ", "ニュース"}
         filtered = []
         for e in feed.entries:
@@ -433,7 +466,24 @@ class CharaLabSystemFinal:
                 headless=False,
                 args=['--disable-blink-features=AutomationControlled']
             )
-            context = await browser.new_context(storage_state="auth.json")
+
+            # auth.json 로드 (playwright_tistory_core.py 방식)
+            if os.path.exists("auth.json"):
+                with open("auth.json", "r") as f:
+                    auth_data = json.load(f)
+                context = await browser.new_context()
+                await context.add_cookies(auth_data.get("cookies", []))
+                logger.info("✓ auth.json 쿠키 로드 완료")
+            else:
+                context = await browser.new_context()
+                logger.warning("auth.json 없음 → 빈 컨텍스트로 시작")
+
+            # 로그인 확인 + 필요시 재로그인
+            logged_in = await self.ensure_logged_in(context)
+            if not logged_in:
+                logger.error("❌ 로그인 실패 → 종료")
+                await browser.close()
+                return
 
             for entry in articles:
                 logger.info(f"▶ {entry.title}")
