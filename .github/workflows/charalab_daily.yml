@@ -1,54 +1,41 @@
-name: CharaLab Daily Auto Poster (05:00 AM KST)
+name: CharaLab Daily Crawler (05:00 AM KST)
 
 on:
   schedule:
-    # 매일 한국 시간 오전 5시 (UTC 시간 오후 8시)
-    - cron: '0 20 * * *'
-  
-  workflow_dispatch: # 수동 실행을 위한 버튼
+    - cron: '0 20 * * *'   # 매일 KST 05:00
+
+  workflow_dispatch:
 
 jobs:
-  run-crawler:
+  crawl:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 1. 저장소 클론 (Checkout)
+      - name: 저장소 클론
         uses: actions/checkout@v4
-      
-      - name: 2. Python 설치 (3.12)
+
+      - name: Python 설치
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
-          
-      - name: 3. 의존성 및 패키지 설치
+
+      - name: 의존성 설치
         run: |
           python -m pip install --upgrade pip
-          pip install playwright feedparser supabase google-generativeai beautifulsoup4 python-dotenv requests
-          playwright install chromium
-          
-      - name: 4. Xvfb 설치 (가상 디스플레이 - Headless 탐지 회피용)
-        run: sudo apt-get install -y xvfb
-          
-      - name: 5. 세션(auth.json) 복원
+          pip install feedparser supabase google-generativeai beautifulsoup4 python-dotenv requests
+
+      - name: 크롤링 + 번역 + Supabase 저장
         env:
-          AUTH_JSON_BASE64: ${{ secrets.AUTH_JSON_BASE64 }}
-        run: |
-          if [ -n "$AUTH_JSON_BASE64" ]; then
-            echo "$AUTH_JSON_BASE64" | base64 -d > auth.json
-            echo "✅ auth.json 로그인 세션 복구 완료"
-          else
-            echo "⚠️ AUTH_JSON_BASE64 시크릿이 설정되지 않았습니다. Tistory 로그인에 실패할 수 있습니다."
-          fi
-          
-      - name: 6. 크롤러 가동! (매일 오전 5시)
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          SUPABASE_URL:  ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY:  ${{ secrets.SUPABASE_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_MODEL: gemini-2.5-flash-lite
-          TISTORY_BLOG_NAME: ${{ secrets.TISTORY_BLOG_NAME || 'irunaru' }}
-          TISTORY_LOGIN_ID: ${{ secrets.TISTORY_LOGIN_EMAIL }}
-          TISTORY_PASSWORD: ${{ secrets.TISTORY_PASSWORD }}
+          GEMINI_MODEL:  gemini-2.5-flash-lite
+        run: python charalab_crawler.py
+
+      - name: 이력 파일 커밋
         run: |
-          # 가상 화면을 띄워 headless=False 코드를 우회 실행합니다.
-          xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" python charalab_crawler_v7_final.py
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add posted_articles_charalab.json || true
+          git commit -m "chore: update charalab history [skip ci]" || true
+          git push || true
