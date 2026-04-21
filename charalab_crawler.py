@@ -168,7 +168,7 @@ class CharaLabCrawler:
             if tags & allowed_tags:
                 articles.append(e)
 
-        articles = articles[:5]
+        articles = articles[:10]
 
         if not articles:
             logger.info("새로운 기사 없음")
