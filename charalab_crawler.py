@@ -23,9 +23,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 load_dotenv()
 
-# -------------------------------------------------------------------------
-# 저작권/출처 문구 제거
-# -------------------------------------------------------------------------
+MAX_ARTICLES = 5
+
 COPYRIGHT_PATTERNS = [
     r'<p[^>]*>©.*?</p>',
     r'<p[^>]*>&copy;.*?</p>',
@@ -55,9 +54,51 @@ class CharaLabCrawler:
         else:
             self.posted_articles = {}
 
-    # -------------------------------------------------------------------------
-    # 기사 본문 크롤링
-    # -------------------------------------------------------------------------
+    def is_in_supabase(self, url: str) -> bool:
+        """Supabase에 이미 저장된 기사인지 확인"""
+        try:
+            res = self.supabase.table('charalab_articles') \
+                .select('id') \
+                .eq('original_url', url) \
+                .execute()
+            return bool(res.data)
+        except Exception:
+            return False
+
+    def collect_entries(self):
+        feedparser.USER_AGENT = CharaLabConfig.USER_AGENT
+        feed = feedparser.parse(CharaLabConfig.FEED_URL)
+        allowed_tags = {"グッズ", "ニュース"}
+
+        # 1차: history에 없는 새 기사
+        new_entries = []
+        fallback_entries = []
+
+        for e in feed.entries:
+            tags = {t.term for t in e.tags} if hasattr(e, 'tags') else set()
+            if not (tags & allowed_tags):
+                continue
+            if e.link not in self.posted_articles:
+                new_entries.append(e)
+            else:
+                fallback_entries.append(e)
+
+        articles = new_entries[:MAX_ARTICLES]
+
+        # 5개 미달 시 과거 기사로 채우기 (Supabase에 없는 것만)
+        if len(articles) < MAX_ARTICLES:
+            needed = MAX_ARTICLES - len(articles)
+            logger.info(f"새 기사 {len(articles)}개 → {needed}개 과거 기사로 보충")
+            for e in fallback_entries:
+                if needed <= 0:
+                    break
+                if not self.is_in_supabase(e.link):
+                    articles.append(e)
+                    needed -= 1
+
+        logger.info(f"최종 수집: {len(articles)}개")
+        return articles
+
     def fetch_article(self, url: str) -> Optional[Dict]:
         try:
             headers = {'User-Agent': CharaLabConfig.USER_AGENT}
@@ -85,9 +126,6 @@ class CharaLabCrawler:
             logger.error(f"기사 크롤링 실패: {e}")
             return None
 
-    # -------------------------------------------------------------------------
-    # Gemini 번역 (애드센스 승인 최적화)
-    # -------------------------------------------------------------------------
     def translate_article(self, title: str, text: str) -> Optional[Dict]:
         prompt = (
             "다음 일본어 기사를 한국어 블로그 포스팅으로 변환하세요.\n"
@@ -125,17 +163,12 @@ class CharaLabCrawler:
             c = re.sub(r'<img[^>]*/?>', '', c)
             c = remove_copyright(c)
 
-            # 2차 검수
             c, t = self.review_article(t, c)
-
             return {'title': t, 'content': c}
         except Exception as e:
             logger.error(f"❌ 번역 에러: {e}")
             return None
 
-    # -------------------------------------------------------------------------
-    # 2차 검수 (애드센스 승인 기준)
-    # -------------------------------------------------------------------------
     def review_article(self, title: str, content: str):
         review_prompt = (
             "아래 한국어 블로그 글을 구글 애드센스 승인 관점에서 검토하고 부족한 부분만 보완하세요.\n"
@@ -169,9 +202,6 @@ class CharaLabCrawler:
             logger.warning(f"⚠️ 2차 검수 실패 (원본 사용): {e}")
             return content, title
 
-    # -------------------------------------------------------------------------
-    # Supabase 저장
-    # -------------------------------------------------------------------------
     def save_to_supabase(self, article_data: Dict) -> bool:
         try:
             res = self.supabase.table('charalab_articles') \
@@ -197,23 +227,9 @@ class CharaLabCrawler:
             logger.error(f"❌ Supabase 저장 실패: {e}")
             return False
 
-    # -------------------------------------------------------------------------
-    # 메인 실행
-    # -------------------------------------------------------------------------
     def run(self):
         logger.info("CharaLab 크롤러 시작")
-        feed = feedparser.parse(CharaLabConfig.FEED_URL)
-
-        allowed_tags = {"グッズ", "ニュース"}
-        articles = []
-        for e in feed.entries:
-            if e.link in self.posted_articles:
-                continue
-            tags = {t.term for t in e.tags} if hasattr(e, 'tags') else set()
-            if tags & allowed_tags:
-                articles.append(e)
-
-        articles = articles[:5]
+        articles = self.collect_entries()
 
         if not articles:
             logger.info("새로운 기사 없음")
