@@ -55,7 +55,6 @@ class CharaLabCrawler:
             self.posted_articles = {}
 
     def is_in_supabase(self, url: str) -> bool:
-        """Supabase에 이미 저장된 기사인지 확인"""
         try:
             res = self.supabase.table('charalab_articles') \
                 .select('id') \
@@ -70,7 +69,6 @@ class CharaLabCrawler:
         feed = feedparser.parse(CharaLabConfig.FEED_URL)
         allowed_tags = {"グッズ", "ニュース"}
 
-        # 1차: history에 없는 새 기사
         new_entries = []
         fallback_entries = []
 
@@ -85,7 +83,7 @@ class CharaLabCrawler:
 
         articles = new_entries[:MAX_ARTICLES]
 
-        # 5개 미달 시 과거 기사로 채우기 (Supabase에 없는 것만)
+        # 5개 미달 시 과거 기사로 보충 (Supabase에 없는 것만)
         if len(articles) < MAX_ARTICLES:
             needed = MAX_ARTICLES - len(articles)
             logger.info(f"새 기사 {len(articles)}개 → {needed}개 과거 기사로 보충")
