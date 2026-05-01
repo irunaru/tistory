@@ -70,24 +70,39 @@ class CharaLabCrawler:
         allowed_tags = {"グッズ", "ニュース"}
 
         new_entries = []
-        fallback_entries = []
+        fallback_tag = []   # 태그 통과 + history 있음
+        fallback_all = []   # 태그 무관 + history 있음 (최후 보충용)
 
         for e in feed.entries:
             tags = {t.term for t in e.tags} if hasattr(e, 'tags') else set()
-            if not (tags & allowed_tags):
-                continue
+            passes_tag = bool(tags & allowed_tags)
             if e.link not in self.posted_articles:
-                new_entries.append(e)
+                if passes_tag:
+                    new_entries.append(e)
             else:
-                fallback_entries.append(e)
+                if passes_tag:
+                    fallback_tag.append(e)
+                else:
+                    fallback_all.append(e)
 
         articles = new_entries[:MAX_ARTICLES]
 
-        # 5개 미달 시 과거 기사로 보충 (Supabase에 없는 것만)
+        # 1차 보충: 태그 통과 과거 기사
         if len(articles) < MAX_ARTICLES:
             needed = MAX_ARTICLES - len(articles)
-            logger.info(f"새 기사 {len(articles)}개 → {needed}개 과거 기사로 보충")
-            for e in fallback_entries:
+            logger.info(f"새 기사 {len(articles)}개 → {needed}개 과거 기사(태그 통과)로 보충")
+            for e in fallback_tag:
+                if needed <= 0:
+                    break
+                if not self.is_in_supabase(e.link):
+                    articles.append(e)
+                    needed -= 1
+
+        # 2차 보충: 태그 무관 RSS 전체
+        if len(articles) < MAX_ARTICLES:
+            needed = MAX_ARTICLES - len(articles)
+            logger.info(f"여전히 {needed}개 부족 → RSS 전체로 보충")
+            for e in fallback_all:
                 if needed <= 0:
                     break
                 if not self.is_in_supabase(e.link):
