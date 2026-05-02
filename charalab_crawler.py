@@ -11,6 +11,7 @@ import feedparser
 import logging
 import requests
 import re
+import time
 from bs4 import BeautifulSoup
 from datetime import datetime
 from typing import Dict, Optional
@@ -199,7 +200,8 @@ class CharaLabCrawler:
             f"[CONTENT]{content}"
         )
         try:
-            logger.info("2차 검수 중...")
+            logger.info("2차 검수 중... (7초 대기)")
+            time.sleep(7)  # 분당 10회 한도 방지
             response = self.model.generate_content(review_prompt)
             raw = response.text
 
