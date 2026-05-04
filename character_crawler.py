@@ -97,10 +97,9 @@ class CharacterCrawler:
                 href = a.get('href', '')
                 if '/wiki/' in href and '_(Pok' in href and '#' not in href:
                     full_url = POKEMON_BASE_URL + href
-                    if full_url not in seen:
+                    if full_url not in seen and full_url not in self.history:
                         seen.add(full_url)
-                        if full_url not in self.history and not self.is_in_supabase(full_url):
-                            urls.append(full_url)
+                        urls.append(full_url)
             logger.info(f"포켓몬 미수집 URL: {len(urls)}개")
             return urls[:POKEMON_PER_DAY]
         except Exception as e:
@@ -124,10 +123,9 @@ class CharacterCrawler:
                         'File' not in href and
                         'Talk' not in href):
                     full_url = SANRIO_BASE_URL + href
-                    if full_url not in seen:
+                    if full_url not in seen and full_url not in self.history:
                         seen.add(full_url)
-                        if full_url not in self.history and not self.is_in_supabase(full_url):
-                            urls.append(full_url)
+                        urls.append(full_url)
             logger.info(f"산리오 미수집 URL: {len(urls)}개")
             return urls[:SANRIO_PER_DAY]
         except Exception as e:
