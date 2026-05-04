@@ -90,31 +90,26 @@ class CharacterCrawler:
     # 포켓몬 URL 목록 수집
     # -------------------------------------------------------------------------
     def get_pokemon_urls(self) -> List[str]:
+        # 포켓몬 타입명, 제외할 단어
+        EXCLUDE_WORDS = {
+            'ぜんこくずかん','タイプ','くさ','どく','ほのお','ひこう','ドラゴン','みず',
+            'むし','ノーマル','でんき','こおり','かくとう','じめん','エスパー','いわ',
+            'ゴースト','はがね','あく','フェアリー','リージョンフォーム',
+        }
         try:
+            from urllib.parse import unquote
             r = requests.get(POKEMON_LIST_URL, headers=self.headers, timeout=10)
             soup = BeautifulSoup(r.text, 'html.parser')
             urls = []
             seen = set()
 
-            # 제외할 키워드 (목록/시리즈 페이지)
-            exclude_keywords = [
-                '一覧', 'シリーズ', 'メインページ', 'ポケモン図鑑',
-                'カテゴリ', 'Template', 'Talk', 'User', 'Special',
-                'index', 'Help', 'Wikipedia',
-            ]
-
-            for a in soup.select('a[href]'):
+            for a in soup.select('table a[href]'):
                 href = a.get('href', '')
-                if not href.startswith('/wiki/'):
+                if not href.startswith('/wiki/') or ':' in href:
                     continue
-                if ':' in href:
+                decoded = unquote(href).replace('/wiki/', '')
+                if decoded in EXCLUDE_WORDS or len(decoded) <= 2:
                     continue
-                # 제외 키워드 체크
-                from urllib.parse import unquote
-                decoded = unquote(href)
-                if any(kw in decoded for kw in exclude_keywords):
-                    continue
-
                 full_url = POKEMON_BASE_URL + href
                 if full_url not in seen and full_url not in self.history:
                     seen.add(full_url)
