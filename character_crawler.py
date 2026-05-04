@@ -95,18 +95,31 @@ class CharacterCrawler:
             soup = BeautifulSoup(r.text, 'html.parser')
             urls = []
             seen = set()
+
+            # 제외할 키워드 (목록/시리즈 페이지)
+            exclude_keywords = [
+                '一覧', 'シリーズ', 'メインページ', 'ポケモン図鑑',
+                'カテゴリ', 'Template', 'Talk', 'User', 'Special',
+                'index', 'Help', 'Wikipedia',
+            ]
+
             for a in soup.select('a[href]'):
                 href = a.get('href', '')
-                # 포켓몬 개별 페이지만 수집 (콜론 없는 /wiki/ 경로)
-                if (href.startswith('/wiki/') and
-                        ':' not in href and
-                        'index' not in href and
-                        href != '/wiki/%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E4%B8%80%E8%A6%A7' and
-                        href != '/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8'):
-                    full_url = POKEMON_BASE_URL + href
-                    if full_url not in seen and full_url not in self.history:
-                        seen.add(full_url)
-                        urls.append(full_url)
+                if not href.startswith('/wiki/'):
+                    continue
+                if ':' in href:
+                    continue
+                # 제외 키워드 체크
+                from urllib.parse import unquote
+                decoded = unquote(href)
+                if any(kw in decoded for kw in exclude_keywords):
+                    continue
+
+                full_url = POKEMON_BASE_URL + href
+                if full_url not in seen and full_url not in self.history:
+                    seen.add(full_url)
+                    urls.append(full_url)
+
             logger.info(f"포켓몬 미수집 URL: {len(urls)}개")
             return urls[:POKEMON_PER_DAY]
         except Exception as e:
