@@ -140,19 +140,28 @@ class CharacterCrawler:
             r = requests.get(url, headers=self.headers, timeout=10)
             soup = BeautifulSoup(r.text, 'html.parser')
 
+            # 이미지: og:image 우선, 없으면 본문 첫 이미지
+            img_url = ''
             og_img = soup.select_one('meta[property="og:image"]')
-            img_url = og_img.get('content', '') if og_img else ''
+            if og_img:
+                img_url = og_img.get('content', '')
+
+            if not img_url:
+                for img in soup.select('.roundy img, table.roundy img'):
+                    src = img.get('src', '')
+                    if src and src.startswith('http') and '.png' in src:
+                        img_url = src
+                        break
 
             content = soup.select_one('#mw-content-text')
             if not content:
                 return None
 
-            # 불필요한 태그 제거
             for tag in content.select('table.roundy, .toc, .navbox, script, style'):
                 tag.decompose()
 
             text = content.get_text()[:4000]
-            name_en = url.split('/wiki/')[-1].replace('_(Pok%C3%A9mon)', '').replace('_(Pokemon)', '').replace('%27', "'")
+            name_en = url.split('/wiki/')[-1].split('_(Pok')[0].replace('%27', "'").replace('%C3%A9', 'é')
 
             return {
                 'text': text,
@@ -172,8 +181,19 @@ class CharacterCrawler:
             r = requests.get(url, headers=self.headers, timeout=10)
             soup = BeautifulSoup(r.text, 'html.parser')
 
+            # 이미지: og:image 우선
+            img_url = ''
             og_img = soup.select_one('meta[property="og:image"]')
-            img_url = og_img.get('content', '') if og_img else ''
+            if og_img:
+                img_url = og_img.get('content', '')
+
+            # og:image 없으면 data-src (lazy load) 시도
+            if not img_url:
+                for img in soup.select('.pi-image img, .infobox img, figure img'):
+                    src = img.get('data-src', '') or img.get('src', '')
+                    if src and src.startswith('http') and 'data:image' not in src:
+                        img_url = src
+                        break
 
             content = soup.select_one('.mw-parser-output')
             if not content:
@@ -226,7 +246,7 @@ class CharacterCrawler:
 
         prompt = (
             f"다음 영어 캐릭터 정보를 한국어 캐릭터 도감으로 변환하세요.\n"
-            f"캐릭터명: {name}\n\n"
+            f"영문 캐릭터명: {name}\n\n"
             "【핵심 원칙】\n"
             "원문의 정보를 100% 충실하게 전달하는 것이 최우선입니다.\n"
             "창작이나 추측을 추가하지 마세요.\n\n"
@@ -239,7 +259,7 @@ class CharacterCrawler:
             "5. img 태그는 절대 포함하지 말 것.\n"
             "6. 저작권 표시(©, ®, ™) 제거.\n\n"
             "반드시 아래 형식으로만 답하세요 (다른 설명 없이):\n"
-            "[TITLE]한국어 제목 (예: '피카츄 완전 도감 - 타입, 진화, 능력 총정리')\n"
+            "[TITLE]한국어 제목\n"
             "[CONTENT]<p>도입부</p><h2>소제목</h2><p>내용</p>\n\n"
             f"원문:\n{text}"
         )
