@@ -1,7 +1,8 @@
 """
 character_crawler.py
-GitHub Actions 전용: 포켓몬(Bulbapedia) + 산리오(Fandom) 캐릭터 도감 크롤링
+GitHub Actions 전용: 포켓몬(ポケモンWiki 일본어) + 산리오(Fandom 영문) 캐릭터 도감 크롤링
 → Gemini 번역 (한국어 도감 형식) → Supabase(charalab_articles) 저장
+포켓몬 이미지: PokeAPI 공식 아트워크 (도감번호 기반)
 """
 
 import os
@@ -33,8 +34,9 @@ USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
 TABLE_NAME = "charalab_articles"
 HISTORY_FILE = "posted_articles_character.json"
 
-POKEMON_LIST_URL = "https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_National_Pok%C3%A9dex_number"
-POKEMON_BASE_URL = "https://bulbapedia.bulbagarden.net"
+POKEMON_LIST_URL = "https://wiki.xn--rckteqa2e.com/wiki/%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E4%B8%80%E8%A6%A7"
+POKEMON_BASE_URL = "https://wiki.xn--rckteqa2e.com"
+POKEAPI_IMG_URL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/{dex_num}.png"
 
 SANRIO_LIST_URL = "https://thesanrio.fandom.com/wiki/Category:Characters"
 SANRIO_BASE_URL = "https://thesanrio.fandom.com"
@@ -93,9 +95,14 @@ class CharacterCrawler:
             soup = BeautifulSoup(r.text, 'html.parser')
             urls = []
             seen = set()
-            for a in soup.select('table td a[href]'):
+            for a in soup.select('a[href]'):
                 href = a.get('href', '')
-                if '/wiki/' in href and '_(Pok' in href and '#' not in href:
+                # 포켓몬 개별 페이지만 수집 (콜론 없는 /wiki/ 경로)
+                if (href.startswith('/wiki/') and
+                        ':' not in href and
+                        'index' not in href and
+                        href != '/wiki/%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E4%B8%80%E8%A6%A7' and
+                        href != '/wiki/%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%9A%E3%83%BC%E3%82%B8'):
                     full_url = POKEMON_BASE_URL + href
                     if full_url not in seen and full_url not in self.history:
                         seen.add(full_url)
@@ -140,33 +147,41 @@ class CharacterCrawler:
             r = requests.get(url, headers=self.headers, timeout=10)
             soup = BeautifulSoup(r.text, 'html.parser')
 
-            # 이미지: og:image 우선, 없으면 본문 첫 이미지
-            img_url = ''
-            og_img = soup.select_one('meta[property="og:image"]')
-            if og_img:
-                img_url = og_img.get('content', '')
-
-            if not img_url:
-                for img in soup.select('.roundy img, table.roundy img'):
-                    src = img.get('src', '')
-                    if src and src.startswith('http') and '.png' in src:
-                        img_url = src
-                        break
-
             content = soup.select_one('#mw-content-text')
             if not content:
                 return None
 
-            for tag in content.select('table.roundy, .toc, .navbox, script, style'):
+            # 도감번호 추출 (全国図鑑 #0025 형태)
+            dex_num = None
+            text_all = content.get_text()
+            dex_match = re.search(r'全国図鑑\s*#(\d+)', text_all)
+            if dex_match:
+                dex_num = int(dex_match.group(1))
+
+            # PokeAPI 공식 아트워크 이미지
+            img_url = ''
+            if dex_num:
+                img_url = POKEAPI_IMG_URL.format(dex_num=dex_num)
+            else:
+                # 도감번호 없으면 og:image 폴백
+                og_img = soup.select_one('meta[property="og:image"]')
+                if og_img:
+                    img_url = og_img.get('content', '')
+
+            # 불필요한 태그 제거
+            for tag in content.select('.toc, .navbox, script, style, table.navbox'):
                 tag.decompose()
 
             text = content.get_text()[:4000]
-            name_en = url.split('/wiki/')[-1].split('_(Pok')[0].replace('%27', "'").replace('%C3%A9', 'é')
+
+            # 일본어 캐릭터명 추출 (페이지 제목)
+            title_tag = soup.select_one('h1#firstHeading, h1.firstHeading')
+            name_ja = title_tag.get_text().strip() if title_tag else url.split('/wiki/')[-1]
 
             return {
                 'text': text,
                 'img_url': img_url,
-                'name': name_en,
+                'name': name_ja,
                 'source': 'pokemon',
             }
         except Exception as e:
@@ -226,13 +241,14 @@ class CharacterCrawler:
         if source == 'pokemon':
             format_guide = (
                 "포켓몬 도감 형식으로 작성하세요:\n"
-                "- 기본 정보 (타입, 분류, 특성)\n"
+                "- 기본 정보 (타입, 분류, 특성, 도감번호)\n"
                 "- 외형 특징\n"
                 "- 능력과 기술\n"
                 "- 진화 정보\n"
                 "- 게임/애니에서의 역할\n"
                 "- 흥미로운 사실"
             )
+            lang = "일본어"
         else:  # sanrio
             format_guide = (
                 "산리오 캐릭터 도감 형식으로 작성하세요:\n"
@@ -243,10 +259,11 @@ class CharacterCrawler:
                 "- 인기 굿즈와 콜라보\n"
                 "- 한국에서의 인기"
             )
+            lang = "영어"
 
         prompt = (
-            f"다음 영어 캐릭터 정보를 한국어 캐릭터 도감으로 변환하세요.\n"
-            f"영문 캐릭터명: {name}\n\n"
+            f"다음 {lang} 캐릭터 정보를 한국어 캐릭터 도감으로 변환하세요.\n"
+            f"캐릭터명: {name}\n\n"
             "【핵심 원칙】\n"
             "원문의 정보를 100% 충실하게 전달하는 것이 최우선입니다.\n"
             "창작이나 추측을 추가하지 마세요.\n\n"
