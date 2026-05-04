@@ -2,7 +2,7 @@ name: Character Crawler
 
 on:
   schedule:
-    - cron: '0 21 * * *'  # KST 06:00 매일
+    - cron: '0 12 * * *'  # KST 21:00 (pronews/ts와 시간 분리)
   workflow_dispatch:
 
 jobs:
