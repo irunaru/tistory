@@ -3,3 +3,5 @@ supabase==2.4.3
 python-dotenv==1.0.0
 feedparser==6.0.10
 google-generativeai>=0.7.2
+requests
+beautifulsoup4
