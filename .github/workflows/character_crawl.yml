@@ -40,4 +40,4 @@ jobs:
         if: always()
         with:
           path: posted_articles_character.json
-          key: character-history-${{ runner.os }}-${{ github.run_id }}
+          key: character-history-${{ runner.os }}
