@@ -1,14 +1,11 @@
 name: Character Crawler
-
 on:
   schedule:
     - cron: '0 12 * * *'  # KST 21:00 (pronews/ts와 시간 분리)
   workflow_dispatch:
-
 jobs:
   crawl:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,13 +18,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Restore history
-        uses: actions/cache@v4
-        with:
-          path: posted_articles_character.json
-          key: character-history-${{ runner.os }}
-          restore-keys: character-history-
-
       - name: Run crawler
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -35,9 +25,10 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python character_crawler.py
 
-      - name: Save history
-        uses: actions/cache/save@v4
-        if: always()
-        with:
-          path: posted_articles_character.json
-          key: character-history-${{ runner.os }}
+      - name: Save history to repo
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git add posted_articles_character.json
+          git diff --cached --quiet || git commit -m "update character history [skip ci]"
+          git push
