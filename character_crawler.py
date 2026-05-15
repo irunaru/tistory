@@ -391,9 +391,11 @@ class CharacterCrawler:
             translated = self.translate_character(data)
             if not translated:
                 continue
-            if self.save_to_supabase(url, translated['title'], translated['content'], data['img_url'], 'pokemon'):
-                self.history[url] = datetime.now().isoformat()
-                self.save_history()
+            result = self.save_to_supabase(url, translated['title'], translated['content'], data['img_url'], 'pokemon')
+            # 저장 성공 또는 이미 저장된 경우 모두 history에 기록
+            self.history[url] = datetime.now().isoformat()
+            self.save_history()
+            if result:
                 saved += 1
             time.sleep(3)
 
@@ -408,9 +410,11 @@ class CharacterCrawler:
             translated = self.translate_character(data)
             if not translated:
                 continue
-            if self.save_to_supabase(url, translated['title'], translated['content'], data['img_url'], 'sanrio'):
-                self.history[url] = datetime.now().isoformat()
-                self.save_history()
+            result = self.save_to_supabase(url, translated['title'], translated['content'], data['img_url'], 'sanrio')
+            # 저장 성공 또는 이미 저장된 경우 모두 history에 기록
+            self.history[url] = datetime.now().isoformat()
+            self.save_history()
+            if result:
                 saved += 1
             time.sleep(3)
 
